@@ -1,0 +1,644 @@
+\documentclass[a4paper]{article}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning}
+\usepackage{amssymb,amsmath}
+
+\usepackage{graphicx}
+
+\title{Réalisation d'un Perceptron Multi-Couches}
+\date{année 2019--2020}
+\author{L2 CUPGE option Informatique}
+
+
+\tikzset{%
+  every neuron/.style={
+    circle,
+    draw,
+    minimum size=1cm
+  },
+  neuron missing/.style={
+    draw=none, 
+    scale=4,
+    text height=0.333cm,
+    execute at begin node=\color{black}$\vdots$
+  },
+}
+
+\def\ffrac#1#2{\frac{\displaystyle #1}{\displaystyle #2}}
+\begin{document}
+
+\maketitle
+
+\section{Présentation}
+
+Le projet de cette année sera plus \og encadré\fg{} que d'habitude.
+Nous vous fournissons une implémentation en C de programmes pouvant
+créer et utiliser des réseaux de neurones pour faire de
+l'apprentissage automatique, et d'évaluer le résultat de cet apprentissage.
+
+Le programme qui est fournit contient plusieurs modules, avec les
+fichiers \texttt{.h} correspondant. Votre but, en tant que groupe, est
+de réimplémenter ces modules, avant éventuellement d'étendre et
+modifier ce qui a été fait.
+
+
+\subsection{Méthode de travail}
+
+Vous partez du répertoire git qui contient l'énoncé du projet, les
+modules compilés (mais pas les fichiers \texttt{.c} correspondant), et
+les fichiers d'en-tête. C'est la branche \texttt{master}, version
+initiale.
+
+Lorsque vous décidez de travailler sur un module, par exemple
+\texttt{matrices.o}:
+\begin{enumerate}
+\item vous créez une nouvelle branche \texttt{matrices};
+\item dans cette branche, vous créez le fichier
+  \texttt{src/matrices.c} et vous modifiez le \texttt{Makefile} de
+  cette branche pour qu'il utilise la version compilée
+  \texttt{src/matrices.o} de votre module à la place du fichier
+  fournit \texttt{lib/matrices.o} pour créer les programmes
+  \texttt{bin/apprentissage} et \texttt{bin/evaluation};
+\item vous modifiez ce module dans cette branche en implémentant les
+  fonctions demandées par le fichier d'en-têtes
+  \texttt{include/matrices.h}, en n'oubliant pas de créer plusieurs
+  versions intermédiaires, au moins une par session de codage;
+\item vous testez votre implémentation en vérifiant que les programmes
+  qui les utilisent marchent correctement. Vous pouvez aussi ajouter
+  des programmes de tests spécifiques qui vont tester les fonctions
+  les unes après les autres.
+\item Une fois que votre implémentation est terminée et marche
+  correctement, vous la fusionnez la branche \texttt{matrices} avec la
+  branche \texttt{master}.
+\end{enumerate}
+Le respect de cette méthode de travail aura un poids important dans la
+note du projet. Le but est d'apprendre à travailler collaborativement
+sur du code, pas seulement d'écrire des fonctions ! Il est attendu que
+vous travailliez sur plusieurs branches (et modules) en même temps.
+
+À la fin du projet, vous devrez rendre un rapport par groupe, entre 5
+et 10 pages, décrivant le travail que vous avez fait, vos choix pour
+l'implémentation des fonctions, et les difficultés rencontrées. Il
+est important pour préparer ce rapport de prendre des notes en cours
+de route !
+
+\subsection{Domaine: apprentissage automatique}
+
+Le but de ce projet est de travailler sur un réseau de neurones de
+type \emph{Perceptron Multi-Couche} (PMC). C'est un des types de
+réseaux utilisés en intelligence artificielle, et le \emph{deep
+  learning} concerne des réseaux structurés (sans tous les liens
+possibles entre les neurones d'une couche et ceux de la suivante) de
+plusieurs dizaines de couches. Pour avoir des temps de calcul
+raisonnables, on se limitera dans l'application à des réseaux à deux
+\emph{couches cachées} (les couches entre l'entrée et la sortie),
+comme dans la Fig.~\ref{fig:architecture:NN} pour apprendre des
+fonctions continues (donc sans classification).
+
+\begin{figure}[htbp]
+  \centering
+\begin{tikzpicture}[x=1.2cm, y=1.5cm, >=stealth]
+
+\foreach \m/\l [count=\y] in {1,2,3,4,missing,5}
+  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,2.5-\y) {};
+
+\foreach \m [count=\y] in {1,missing,2}
+  \node [every neuron/.try, neuron \m/.try ] (hidden1-\m) at (2,2-\y*1.25) {};
+
+\foreach \m [count=\y] in {1,missing,2}
+  \node [every neuron/.try, neuron \m/.try ] (hidden2-\m) at (4,2-\y*1.25) {};
+
+\foreach \m [count=\y] in {1}
+  \node [every neuron/.try, neuron \m/.try ] (output-\m) at (6,1.5-\y) {};
+
+\foreach \l [count=\i] in {date,id,longueur,\ensuremath{P_1},\ensuremath{P_8}}
+  \draw [<-] (input-\i) -- ++(-1,0)
+    node [above, midway] {\l};
+
+\foreach \hl [count=\i] in {1,2}
+  \foreach \l [count=\j] in {1,n_\i}
+    \node [above] at (hidden\i-\j.north) {\(H^{\i}_{\l}\)};
+
+\foreach \l [count=\i] in {1}
+  \draw [->] (output-\i) -- ++(1,0)
+    node [above, midway] {$O$};
+
+\foreach \i in {1,...,5}
+  \foreach \j in {1,...,2}
+    \draw [->] (input-\i) -- (hidden1-\j);
+
+\foreach \i in {1,...,2}
+  \foreach \j in {1,...,2}
+    \draw [->] (hidden1-\i) -- (hidden2-\j);
+
+\foreach \i in {1,...,2}
+  \foreach \j in {1}
+    \draw [->] (hidden2-\i) -- (output-\j);
+
+\foreach \l [count=\x from 0] in {d'entr\'ee,cach\'ee,cach\'ee,de sortie}
+  \node [align=center, above] at (\x*2,2) {Couche\\\l};
+
+\end{tikzpicture}
+  \caption{Architecture proposée pour l'application}
+  \label{fig:architecture:NN}
+\end{figure}
+
+\subsection{Réseau de neurones}
+
+En théorie, un neurone est défini par:
+\begin{itemize}
+\item des \emph{synapses} qui le connectent à d'autres neurones;
+\item une \emph{activation} qui mesure à quel point un neurone est \og excité\fg{}.
+\end{itemize}
+Dans les PMC, l'activation est mesurée par un \texttt{float}, positif
+ou négatif. On sépare les calculs de l'activation \textbf{reçue} par
+un neurone de celle de l'activation \textbf{émise} par ce neurone:
+\begin{itemize}
+\item la première est une somme pondérée de l'activation des neurones
+  de la couche précédente qui sont connectés à ce neurone;
+\item la seconde est le résultat de l'application d'une
+  \textbf{fonction d'activation} sur l'activation reçue.
+\end{itemize}
+Chaque couche interne du PMC est donc représentée par deux couches
+dans notre implémentation:
+\begin{itemize}
+\item une couche définie par une matrice calculant l'activation reçue;
+\item une couche définie par une fonction.
+\end{itemize}
+On considère pour ce projet des \emph{PMC uniformes} dans lesquels la
+fonction \(f\) est la même pour tous les neurones d'une même
+couche. L'activation sur une couche est un vecteur ligne, c'est-à-dire
+une matrice \(1\times n\)
+
+\begin{figure}[htbp]
+  \centering
+\begin{tikzpicture}[x=1.2cm, y=1.5cm, >=stealth]
+
+\foreach \m/\l [count=\y] in {1,2,missing,3}
+  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,2.5-\y) {};
+
+\foreach \l [count=\i] in {x_1,x_2,x_n}
+    \node [above] at (input-\i.north east) {\(\l\)};
+
+\node [every neuron/.try ] (neuron) at (3,0) {};
+
+\node [above] at (neuron.north east) {\(y\)};
+
+
+
+\foreach \l [count=\i] in {1,2,n}
+    \draw [->] (input-\i) -- (neuron) node[midway,above right] {\(a_{\l}\)};
+\end{tikzpicture}
+\caption{Représentation d'un neurone connecté avec \(n\) neurones de
+  la couche précédente. Pour un PMC uniforme avec une fonction
+  d'activation \(f\), on a \(y= f ( \Sigma_{i=1}^n a_i\cdot x_i)\). Ce
+  calcul est décomposé dans notre implémentation en 2 couches, une
+  calculant la somme et la seconde appliquant \(f\) sur cette somme.}
+  \label{fig:neurone}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\subsection{Propagation}
+
+Dans l'implémentation qui vous est fournie, la propagation des calculs
+de l'entrée vers la sortie 
+
+
+\subsection{Calculer avec un PMC}
+
+Un PMC effectue des calculs de la manière suivante:
+\begin{itemize}
+\item on donne une activation aux neurones de la couche d'entrée;
+\item on calcule ensuite itérativement l'activation des neurones de la
+  couche suivante (dans l'application, d'abord de la couché caché 1,
+  puis de la couche cachée 2, puis de la sortie) jusqu'à arriver à la
+  couche de sortie.
+\item le résultat du calcul du PMC est le vecteur (dans l'application,
+  ce vecteur est de dimension \(1\)) des activations des neurones de
+  la couche de sortie.
+\end{itemize}
+
+En pratique, on représente l'activation d'une couche de \(n\) neurones
+par un tableau de \(n\) \texttt{float}. Pour les couches de type \og
+matrice\fg{}, les coefficients des synapses utilisés pour pondérer la
+somme (les \(a_i\) de la Fig~\ref{fig:neurone}) sont stockés dans une
+matrice (voir Fig.~\ref{fig:reseau:matrice} pour un exemple
+simple). Dans l'application, on utilise 3 couches de type \og matrice\fg{}:
+\begin{itemize}
+\item une entre la couche d'entrée et la première couche cachée;
+\item une entre les deux couches cachées;
+\item une de la seconde couche cachée vers la couche de sortie.
+\end{itemize}
+\begin{figure}[htbp]
+  \centering
+\begin{tikzpicture}[x=1.2cm, y=1.5cm, >=stealth]
+
+\foreach \m/\l [count=\y] in {1,2,3,4,missing,5}
+  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,2.5-\y) {};
+
+\foreach \m [count=\y] in {1,missing,2}
+  \node [every neuron/.try, neuron \m/.try ] (hidden1-\m) at (2,2-\y*1.25) {};
+
+\foreach \m [count=\y] in {1,missing,2}
+  \node [every neuron/.try, neuron \m/.try ] (hidden2-\m) at (4,2-\y*1.25) {};
+
+\foreach \m [count=\y] in {1}
+  \node [every neuron/.try, neuron \m/.try ] (output-\m) at (6,1.5-\y) {};
+
+\foreach \l [count=\i] in {date,id,longueur,\ensuremath{P_1},\ensuremath{P_8}}
+  \draw [<-] (input-\i) -- ++(-1,0)
+    node [above, midway] {\l};
+
+\foreach \hl [count=\i] in {1,2}
+  \foreach \l [count=\j] in {1,n_\i}
+    \node [above] at (hidden\i-\j.north) {\(H^{\i}_{\l}\)};
+
+\foreach \l [count=\i] in {1}
+  \draw [->] (output-\i) -- ++(1,0)
+    node [above, midway] {$O$};
+
+\foreach \i in {1,...,5}
+  \foreach \j in {1,...,2}
+    \draw [->] (input-\i) -- (hidden1-\j);
+
+\foreach \i in {1,...,2}
+  \foreach \j in {1,...,2}
+    \draw [->] (hidden1-\i) -- (hidden2-\j);
+
+\foreach \i in {1,...,2}
+  \foreach \j in {1}
+    \draw [->] (hidden2-\i) -- (output-\j);
+
+\foreach \l [count=\x from 0] in {d'entr\'ee,cach\'ee,cach\'ee,de sortie}
+  \node [align=center, above] at (\x*2,2) {Couche\\\l};
+
+\end{tikzpicture}
+  \caption{Architecture proposée pour l'application}
+  \label{fig:architecture:NN}
+\end{figure}
+
+\subsection{Calcul du résultat}
+
+En théorie, un neurone est défini par:
+\begin{itemize}
+\item des \emph{synapses} qui le connectent à d'autres neurones;
+\item une \emph{activation} qui mesure à quel point un neurone est \og excité\fg{}.
+\end{itemize}
+Dans les PMC, l'activation est mesurée par un \texttt{float}, positif
+ou négatif. Elle est une fonction \(f\) de l'activation reçue (stockée
+dans la couche matrice précédente). On considère pour ce projet des
+\emph{PMC uniformes} dans lesquels la fonction \(f\) est la même pour
+tous les neurones d'une couche.
+
+\begin{figure}[htbp]
+  \centering
+\begin{tikzpicture}[x=1.2cm, y=1.5cm, >=stealth]
+
+\foreach \i in {1,2,3}
+  \node [every neuron/.try] (pred-\i) at (0,2.5-\i) {};
+
+\foreach \j in {1,2}
+  \node [every neuron/.try] (succ-\j) at (2,2.5-\j) {};
+
+\foreach \i in {1,2,3}
+    \node [above] at (pred-\i.north east) {\(n^{l}_\i\)};
+\foreach \j in {1,2}
+    \node [above] at (succ-\j.north east) {\(n^{l+1}_\j\)};
+
+\foreach \i in {1,2,3}
+  \foreach \j in {1,2}
+    \draw[->] (pred-\i) -- (succ-\j) node[near start,above right] {\(a_{\i,\j}\)} ;
+\node at (4,1) {\(\left(\begin{array}{ccc} a_{1,1} & a_{1,2}\\a_{2,1}& a_{2,2}\\a_{3,1}&a_{3,2}\\\end{array}\right)\)} ;
+\end{tikzpicture}
+\caption{Traduction en matrice des coefficients entre la couche \(l\)
+  et la couche \(l+1\).}
+  \label{fig:reseau:matrice}
+\end{figure}
+
+La matrice entre une couche de \(n\) neurones et une couche de \(m\)
+neurones est de taille \(m\times n\). Si l'activation des neurones
+d'une couche est représentée par le vecteur ligne\(\vec u\) et que la
+matrice entre cette couche et la suivante est \(M\), on calcule
+l'activation des neurones de la couche suivante:
+\begin{itemize}
+\item en calculant \(\vec v = \vec u \cdot M\);
+\item en posant \(\vec v=(v_1,\ldots,v_m)\), le vecteur ligne d'activation
+  des neurones de la couche suivante est \((f(v_1),\ldots,f(v_m))\).
+\end{itemize}
+
+On dit que le calcul \emph{propage} les valeurs d'entrée à travers le
+réseau par des multiplications successives de matrices (calcul par
+\textbf{propagation}).
+
+\subsection{Descente de gradient}
+
+Le résultat dépend entièrement des coefficients qui sont stockés dans
+la matrice. L'utilité des réseaux de neurones est qu'on dispose d'une
+méthode qui permet de rapprocher le résultat du calcul. Pour cela, on
+a besoin de connaître, étant donnée une entrée \(e\), le résultat
+attendu \(r_{\text{att}}\) (en général, c'est un vecteur, dans
+l'application, il s'agit juste d'une valeur \(1\) ou \(-1\).)  Le but
+de l'algorithme d'apprentissage par rétro-propagation est de minimiser
+la distance entre ce résultat attendu et le résultat produit par le
+PMC avec les c\oe fficients actuels, \(r\).
+
+Pour simplifier les calculs, on considère le carré de cette distance
+divisé par 2. Cette fonction est monotone par rapport à la distance,
+et a l'avantage de simplifier les calculs. On veut changer les poids
+pour minimiser cette distance. Avec un neurone sur la couche de
+sortie, cette distance peut être exprimée en fonction de les activations
+(\(x_i\) pour le \(i\)ème neurone) des neurones sur la couche
+précédente et du coefficient \(a_i\) entre le \(i\)ème neurone et le
+neurone de sortie:
+\[
+  \begin{array}{rcl}
+E & = & \frac 12\cdot ( r_{\text{att}} - r)^2\\
+  & = & \frac 12 \cdot ( r_{\text{att}} - f( \Sigma_{i=1}^n a_i\cdot x_i))^2\\
+  \end{array}
+\]
+Pour essayer de rendre cette erreur plus petite, pour chaque neurone
+\(i\) de la couche précédente on la dérive par rapport à
+\(a_i\). Cette dérivée nous indiquera comme modifier \(a_i\) pour
+minimiser la distance. De manière générale, on calcule une dérivée de
+l'erreur dans chaque neurone pour chaque c\oe fficient qui contribue à
+l'activation de ce neurone. Par la suite, on utilisera des indices
+\(l\) pour numéroter les couches (\(l=0\) pour la couche d'entrée), et
+des indices \(i\) et \(j\) pour désigner des neurones au sein d'une
+couche. Pour simplifier les expressions, comme exemple, on va
+commencer par dériver l'erreur finale (la dernière couche ayant un
+seul neurone, on peut se passer d'indice) par rapport au c\oe fficient
+\(a_{17}\) de la contribution du \(17\)ème neurone de la seconde
+couche cachée (un indice en moins, il n'en reste plus que dans les
+sommes):
+\[
+  \begin{array}{rcl}
+\ffrac{\partial E}{\partial a_{17}} & = & \ffrac{\partial ( \ffrac 12 \cdot ( r_{\text{att}} - f( \Sigma_{i=1}^n a_i\cdot x_i))^2 )}{\partial a_{17}}\\
+    &=& \ffrac 12 \cdot 2 \cdot ( r_{\text{att}} - f( \Sigma_{i=1}^n a_i\cdot x_i))\cdot \ffrac{\partial ( r_{\text{att}} - f( \Sigma_{i=1}^n a_i\cdot x_i) )}{\partial a_{17}}\\
+    &=& ( r_{\text{att}} - r )\cdot \ffrac{\partial ( r_{\text{att}} - f( \Sigma_{i=1}^n a_i\cdot x_i) )}{\partial a_{17}}\\
+    &=& - ( r_{\text{att}} - r)\cdot  f' ( \Sigma_{i=1}^n a_i\cdot x_i) \cdot \ffrac{\partial (\Sigma_{i=1}^n a_i\cdot x_i)}{\partial a_{17}}\\
+    &=& - ( r_{\text{att}} - r )\cdot  f' ( \Sigma_{i=1}^n a_i\cdot x_i) \cdot x_{17}\\
+  \end{array}
+\]
+La dernière ligne est parce qu'on dérive par rapport à \(a_{17}\). Il
+faudrait faire ce calcul pour tous les neurones de la couche cachée
+précédant la sortie, mais on voit que hormis le coefficient \(x_{17}\)
+à la fin de l'expression, les autres parties ne dépendent pas du
+neurone choisi dans la couche précédente. Pour le neurone \(j\) de la
+couche \(l\), si l'\emph{écart} par rapport au résultat attendu est
+\(e^l_j\), on pose:
+\begin{center}
+  \fbox{\parbox{0.9\textwidth}{
+      \[
+        z_j^l = e^l_j \cdot f'(\underbrace{\Sigma_{i=1}^n a_i\cdot x_i}_{\vbox{\hbox{somme des} \hbox{entrées du} \hbox{neurone}}}) 
+      \]
+    }}
+\end{center}
+En prenant, sur le neurone de sortie, \( e = r_{\text{att}} - r \) comme
+déviation par rapport au résultat attendu, la dérivée est:
+\begin{center}
+  \fbox{\parbox{0.9\textwidth}{
+      \[
+        \ffrac{\partial E}{\partial a_{17}} = -  z_{\text{sortie}} \cdot x_{17}
+      \]
+    }}
+\end{center}
+Localement, quand on fait varier le poids \(a_{17}\), la distance au
+résultat attendu comme une fonction linéaire en la variable
+\(x_{17}\), l'activation du neurone \(17\) de la dernière couche
+cachée.  Plus généralement, si le neurone \(i\) de la couche \(l+1\) a
+une erreur \(e^{l+1}_i\), et que le neurone \(j\) de la couche \(l\)
+est connecté avec le poids \(a_{j,i}\), alors:
+\begin{center}
+  \fbox{
+    \parbox{0.9\textwidth}{
+  \[
+    \ffrac{\partial e^{l+1}_i}{\partial a_{j,i}} = - z_i^{l+1} \cdot x^l_{j}
+  \]
+}}
+\end{center}
+Calculer toutes les dérivées partielles revient à calculer (dans
+\(\mathbb{R}^{\# \text{neurones}}\)) le gradient de la courbe qui
+décrit le carrée de la distance à la valeur voulue, et à suivre ce
+vecteur dans le sens opposé sur une petite distance, et on espère que
+cela diminuera la distance. D'où le nom de \textbf{descente de gradient}.
+
+\subsection{Rétro-propagation}
+Pour itérer, il faut calculer l'erreur sur le \(j\)ème neurone
+  de la couche précédente. On pourra ainsi remonter les couches
+  jusqu'à la couche d'entrée en associant à chaque neurone une erreur
+  \(e^l_i\) à corriger. Pour faire ce calcul, on commence par estimer
+  la différence entre la valeur de \(x_j^l\) lors du calcul et une
+  valeur idéale qui minimiserait l'erreur dans la couche \(l+1\). Pour
+  cela, on dérive la somme des carrés des écarts dans la couche
+  \(l+1\) par rapport à \(x_j^l\). Avec un calcul très proche du
+  calcul précédent, on trouve:
+\begin{center}
+  \fbox{
+    \parbox{0.9\textwidth}{
+\[
+  \begin{array}{rcl}
+  e^l_j & = & \Sigma_{k=1}^{n_{l+1}} \ffrac{\partial e^{l+1}_i}{\partial x^l_j}\\
+&=& \Sigma_{k=1}^{n_{l+1}} z_k^{l+1} a_{k,j}
+  \end{array}
+\]
+}}
+\end{center}
+L'avantage d'avoir défini les variables \(z_k^l\) est que, si on a
+bien les yeux en face des trous, on remarque que l'écart à la couche
+\(l\) se calcule en multipliant le vecteur \(z^{l+1}\) par la
+transposée de la matrice des coefficients utilisée pour le calcul du
+réseau de neurone. Et on aura toujours \(z^l_j = e^l_j \cdot
+f'(\text{somme des entrées})\).
+
+En résumé, on propage l'écart sur la sortie vers l'entrée du réseau de
+neurones en faisant des multiplications par les transposées des
+matrices utilisées pour le calcul (on obtient alors les \(e^l_i\)), et
+en multipliant chaque valeur par la dérivée de la fonction
+d'activation (pour obtenir les \(z^l_i\)). C'est surtout à cause de la
+propagation de l'écart qu'on parle d'\textbf{apprentissage par
+  rétro-propagation}.
+
+\subsection{Résumé}
+L'apprentissage se fait en 2 temps:
+\begin{itemize}
+\item on commence par corriger le coefficient \(a_{j,i}\):
+  graphiquement, on regarde la pente de \(E_i\), et on tente d'aller
+  (à une certaine vitesse) vers le bas. On considère le cas où la
+  vitesse de progression est fixée à \(\lambda=0,001\). On corrige
+  \(a_j\) en faisant:
+\begin{center}
+  \fbox{
+    \parbox{0.9\textwidth}{ 
+\[ \begin{array}{rcl}
+     a_{j,i} &\rightarrow & a_{j,i} + \lambda \cdot z_i^{l+1} \cdot x_j^l\\
+    \end{array}
+  \]
+}}
+\end{center}
+\item On propage les écarts en direction de la couche d'entrée par
+  rétro-propagations:
+\begin{center}
+  \fbox{
+    \parbox{0.9\textwidth}{
+  \[
+    \begin{array}{rcl}
+    e^l_j&=& \Sigma_{i=1}^{n_{l+1}} a_{i,j}\cdot e^{l+1}_i\\
+    z^l_j&=&f'(x_j^l)\cdot e^l_j\\
+    \end{array}
+  \]
+}}
+\end{center}
+\item On itère le calcul en remontant sur la couche d'entrée pour
+  corriger les coefficients de toutes les matrices.
+\end{itemize}
+
+\subsection{Les fonctions d'activation usuelles}
+
+On liste dans cette section les fonctions d'activation qui sont
+souvent utilisées, avec leur dérivée. Pour calculer ces fonctions en
+C, on peut utiliser la librairie \texttt{math.h} qui contient toutes
+les fonctions usuelles. Un des critère pour le choix de ces fonctions
+est qu'une fois le résultat de la fonction connu (c'est l'activation
+du neurone calculée pendant la phase de propagation), il est
+relativement simple de calculer la dérivée.
+\[
+  \begin{array}{|l|l|}
+    \hline
+    \multicolumn 1{|c}{\text{fonction}} & \multicolumn 1{|c|}{\text{dérivée}} \\
+    \hline
+    f(x)=\ffrac 1{1+e^{-x}}& \ffrac{e^{-x}}{(1+e^{-x})^2} = e^{-x}\cdot (f(x))^2\\
+    \hline
+    \operatorname{tanh}(x)=\ffrac{1+e^{-2x}}{1-e^{-2x}} & 1 - (\operatorname{tanh}(x))^2 \\
+    \hline
+    \operatorname{ReLU}(x) = \max(0,x) & 1 \text { si }x\ge 0\text{, } 0\text{ sinon}\\
+    \hline
+  \end{array}
+\]
+
+\subsection{Autres ressources pour la description}
+
+Les pages Wikipédia en français sont assez pauvres sur le sujet, et
+n'entrent pas dans les détails. Essayez la version anglaise pour plus
+d'information ! Sinon, la section 1 de la description des PMC sur la
+page:
+\begin{center}
+  \url{http://penseeartificielle.fr/focus-reseau-neurones-artificiels-perceptron-multicouche/}
+\end{center}
+est assez bien faite.  De même, la page Wikipédia:
+\begin{center}
+  \url{https://fr.wikipedia.org/wiki/Rétropropagation_du_gradient}
+\end{center}
+explique bien la technique que nous utilisons pour corriger les
+erreurs.
+
+
+\section{Travail à réaliser}
+
+\subsection{Opérations matricielles}
+
+Un premier travail consiste à implémenter une structure matrice contenant:
+\begin{itemize}
+\item le nombre de lignes et de colonnes de la matrice;
+\item le tableau des coefficients de la matrice.
+\end{itemize}
+Il est demandé d'écrire les fonctions permettant d'utiliser cette structure:
+\begin{itemize}
+\item création d'une matrice à partir du nombre de lignes et de
+  colonnes. Plusieurs fonctions peuvent être écrites pour soit
+  initialiser les coefficients de la matrice à 0, soit les initialiser
+  par des nombres aléatoires;
+\item demander une matrice à un utilisateur et afficher une matrice;
+\item lire et écrire des matrices dans des fichiers;
+\item additionner et multiplier des matrices, et multiplier un vecteur
+  par une matrice.
+\end{itemize}
+Vous pouvez écrire des fonctions supplémentaires, et vous inspirer du TP !
+
+\subsection{Réseau de neurones}
+
+Un réseau de neurones est un tableau de \(n\) matrices. Pour les calculs (voir plus haut)
+il est pratique de stocker pour chaque couche \(l\) de \(n_l\) neurones:
+\begin{itemize}
+\item le tableau des sommes \(\Sigma_{k=1}^{n_{l-1}} a_{k,i}\cdot x^{l-1}_k\)
+\item le tableau des activations \(f(\Sigma_{k=1}^{n_{l-1}} a_{k,i}\cdot x^{l-1}_k)\)
+\end{itemize}
+Il faut créer une structure ayant toutes ces informations, et écrire
+des fonctions:
+\begin{itemize}
+\item permettant de calculer la sortie d'un réseau de neurones en fonction de son entrée;
+\item permettant d'apprendre les poids corrects pour minimiser l'erreur.
+\end{itemize}
+
+\paragraph{Fonction d'activation.} Il est conseillé de commencer par
+choisir une fonction d'activation (et donc sa dérivée) fixée par le
+programme. Si vous avez le temps, il est aussi possible de modifier la
+structure \og réseau de neurones\fg{} pour inclure ces deux fonctions,
+voire d'avoir des réseaux de neurones non-uniforme avec des fonctions
+différentes suivant les couches. 
+
+
+\section{Considérations administratives}
+
+D'ici la fin du mois de novembre, nous verrons:
+\begin{itemize}
+\item la définition de nouveaux types, incluant les structures;
+\item la séparation d'un programme en différents \emph{modules}, qui
+  sont des fichiers contenant les fonctions relatives à un type ou à
+  un ensemble de fonctionnalités;
+\item l'utilisation de \texttt{Makefile} pour automatiser la
+  compilation de programmes;
+\item en TP, l'utilisation de tests pour vérifier les fonctions d'un
+  module.
+\end{itemize}
+Vous pouvez commencer à lire les parties du code source et des
+en-têtes disponibles, et préparer un programme de travail, mais
+certaines parties, comme la lecture et l'écriture de données dans un
+fichier, ne peuvent pas être abordées tout de suite.
+
+\paragraph{Groupes.} Les projets sont écrits en trinômes. Les binômes
+et les monômes doivent être évités, sauf accord de votre enseignant de
+TP (avec une préférence pour les binômes).
+
+\paragraph{Écriture du projet.} Vous devez écrire votre projet sur un
+répertoire git privé et hébergé sur \texttt{github} ou
+\texttt{bitbucket}. Vous devrez donner l'accès aux membres du groupe
+et à votre enseignant de TP. \textbf{L'utilisation de \texttt{git}
+  n'est pas optionnelle !} En particulier, en cas de gros déséquilibre
+dans les contributions, les notes des participants pourront être
+modulées (par défaut, la note est pour le projet).
+
+\paragraph{Documentation.} Tout programme doit être documenté ! Vous
+devrez donc rendre à la fin du projet deux documents:
+\begin{itemize}
+\item un document \textbf{pdf} (ni word, ni txt, ni autre) décrivant,
+  pour chaque module que vous aurez écrit, les fonctions et structures
+  que vous avez écrits;
+\item un document (du texte simple écrit dans un bloc note ou un
+  fichier markdown) appelé \texttt{README} (.txt ou .md) dans lequel
+  vous décrirez comment compiler les fichiers sources, comment tester
+  les modules, et comment utiliser le programme.
+\end{itemize}
+
+\paragraph{Pièges.} Nous avons sciemment piégé cet énoncé en
+introduisant ce qui pourrait ressembler à des erreurs. Pour vous
+tromper encore plus, il se peut même qu'il n'y ait pas d'erreurs ! Par
+pure bienveillance, nous corrigerons sur l'énoncé toute erreur qui
+nous signalée par une personne.
+
+\paragraph{Date de fin de projet.} Le projet doit être rendu le
+\textbf{4 décembre 2020}. Pour le rendre, vous n'avez rien à faire,
+c'est l'enseignant de TP qui clonera votre dépôt.
+
+\end{document}
