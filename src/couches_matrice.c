@@ -1,6 +1,8 @@
 #include <assert.h>
 #include <stdio.h>
-#include <malloc.h>
+//#include <malloc.h>
+#include <stdlib.h>
+
 #include "matrices.h"
 #include "matrices_accesseurs.h"
 #include "matrices_operations.h"

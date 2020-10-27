@@ -1,4 +1,4 @@
-#include <malloc.h>
+//#include <malloc.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
