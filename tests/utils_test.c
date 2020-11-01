@@ -13,7 +13,7 @@
 int main(){
 	
 	FILE* fichier = NULL;
-	fichier = fopen("testutils.txt", "r");
+	fichier = fopen("tests/utils_test.txt", "r");
     
     printf("La fonction log_show_position renvoie : \n"); 
     log_show_position (fichier);

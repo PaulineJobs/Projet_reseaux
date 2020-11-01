@@ -1,7 +1,11 @@
 SHELL:=/bin/bash
+
 MODULES_APPRENTISSAGE:= lib/specification.o lib/apprentissage.o lib/reseau.o lib/couches_entree.o lib/couches_sortie.o  lib/couches_activation.o  lib/couches_matrice.o lib/activation.o lib/matrices_accesseurs.o lib/matrices_operations.o lib/matrices.o lib/utils.o 
+
 MODULES_EVALUATION:=lib/specification.o lib/lire_db.o lib/evaluation.o lib/reseau.o lib/couches_entree.o lib/couches_sortie.o  lib/couches_activation.o lib/couches_matrice.o  lib/activation.o lib/matrices_accesseurs.o lib/matrices_operations.o lib/matrices.o lib/utils.o 
+
 MAIN:=bin/apprentissage bin/evaluation
+
 LIBS:=-lm 
 INCLUDE_PATH:= include
 LIBRARY_PATH:= lib
@@ -12,11 +16,17 @@ CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH)
 
 all: $(MAIN)
 
+utils_test: bin/utils_test
+
 bin/apprentissage: src/main_apprentissage.c $(MODULES_APPRENTISSAGE)
 	gcc $(CFLAGS) src/main_apprentissage.c -o bin/apprentissage  $(MODULES_APPRENTISSAGE) $(LIBS)
 
 bin/evaluation: src/main_evaluation.c $(MODULES_EVALUATION)
 	gcc $(CFLAGS) src/main_evaluation.c -o bin/evaluation  $(MODULES_EVALUATION) $(LIBS)
+
+# Programme de test du module utils
+bin/utils_test: tests/utils_test.c  lib/utils.o
+	gcc $(CFLAGS) tests/utils_test.c lib/utils.o -o bin/utils_test
 
 lib/%.o: src/%.c 
 	gcc $(CFLAGS) -c $< -o $@ 
