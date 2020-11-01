@@ -52,6 +52,33 @@ J'ai rajouté le corps de la fonction "evaluation reseau" (sinon cela ne compila
 
 
  
-      
+# Pauline 01/11/20:
+
+-Ajout de la branche utils en local (sur mon pc)
+
+-modifs des fichiers utils.c et utis.h et creation des fichiers utils_tests.c et utils_test.txt dans la branche utils (sur la branche utils)
+
+-modifs du makefile pour que ces fichiers compilent correctements
+
+-commit de tout ça
+
+-push de tout ça 
+
+-le push a crée une branche utils distante (remote)
+
+-fait le lien entre la branche utils en local et la branche utils en disatnce avec le commande "git branch utils --set-upstream-to remotes/origin/utils"
+
+-lorsque tu vas recuperer ma branche et son contenu avec un git pull, ton ordi va directement creer une branche locale utils qui sera reliée a la branche utils 
+
+distante donc pas besoin d'effectuer la commande 
+
+-par contre lorsque tu vas creer ta branche matrice et y mettre son contenu, tu devras faire les même opérations que moi
+
+-"git branch -a" te donne la liste des branches
+
+-git branch -avv" te donnes les branches, leurs liens, et le dernier commit 
+
+
+
 
  
