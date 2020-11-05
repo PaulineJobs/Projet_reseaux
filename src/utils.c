@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <assert.h>
+#include <string.h>
 #include "utils.h"
 
 
@@ -122,4 +123,25 @@ char * lire_string (FILE * f ) {                       //lit une chaine de carac
 		fscanf(f,"%s",chaine);                                             // on lit dans f la chaine de caractères et on la stocke dans le tableua "chaine" 
 	}
 	return chaine;                                                       //on renvoie le tableau "chaine" contenant la chaine de caractères lue 
+}
+
+
+//cadeau du prof
+
+int lire_mot_clef ( FILE * f , const char * mot ) {
+  int c ;
+  long int
+    position_debut,
+    position_fin ;
+  while ( isspace ( c = getc ( f) ) )
+    ;
+  ungetc ( c , f ) ;
+  position_debut = ftell ( f ) ;
+  fscanf ( f , mot ) ;
+  position_fin = ftell ( f ) ;
+  if ( position_fin != position_debut + strlen ( mot ) ) {
+      fseek ( f , position_debut , SEEK_SET ) ;
+      return 0 ;
+  }
+  else return 1 ;
 }
