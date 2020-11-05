@@ -79,6 +79,24 @@ distante donc pas besoin d'effectuer la commande
 -git branch -avv" te donnes les branches, leurs liens, et le dernier commit 
 
 
+#Mathilde - 05/11/20
+
+Creation de la branche matrice : 
+
+git branch matrice
+
+git checkout matrice
+
+git status (pour verifier sur quel branche je suis)
+
+git add .     (une fois que je suis bien sur la branche matrice)
+
+git commit -m "Ajout de la branche matrice"
+
+git push --set-upstream origin matrice //le git push tout seul ne marchait pas
+
+
+
 
 
  
