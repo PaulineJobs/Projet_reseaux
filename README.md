@@ -79,7 +79,7 @@ distante donc pas besoin d'effectuer la commande
 -git branch -avv" te donnes les branches, leurs liens, et le dernier commit 
 
 
-#Mathilde - 05/11/20
+# Mathilde - 05/11/20
 
 Creation de la branche matrice : 
 
@@ -94,6 +94,20 @@ git add .     (une fois que je suis bien sur la branche matrice)
 git commit -m "Ajout de la branche matrice"
 
 git push --set-upstream origin matrice //le git push tout seul ne marchait pas
+
+# Pauline - Fusion des branches:
+
+Le principe de fusion se comporte comme un copié/collé et non comme un coupé/collé comme on le pensait.
+
+Si je merge la branche main avec la branche utils :
+
+(entre le code suivant dans la branche main ) : git merge utils
+
+Cela va "copier" le contenu de la branche utils et le "coller" dans la branche main.
+
+La branche utils exste toujours. Si on veut apporter des modifs on pourra  les faire dans utils. Il suffira de remerger la branche main avec la branche utils.
+
+Cepandant est conseillé de supprimer la branche utils aprés l'avoir fusionnée puis d'en recreer une si on veut apporter des modifs (car sinon les autres branches vont evoluer sans celle-ci, elle va donc diverger  et il y aura beaucoup de confits lorsque l'on va remerger à nouveau)
 
 
 
