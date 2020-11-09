@@ -11,7 +11,6 @@ struct log_s
 }
 	;
 
-struct log_s *
-lire_fichier ( const char * nom ) ;
+struct log_s * lire_fichier ( const char * nom ) ;
 
 #endif
