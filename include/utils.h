@@ -11,12 +11,13 @@
 #define log(...) ((void) 0)
 #endif
 
-
+void log_show_position ( FILE * f );
 void lire_donnee ( FILE * f , char * format , void * res ) ;
 int lire_entier ( FILE * f ) ;
 // de min inclus à max exclus. max ignoré si max <= min
 int lire_entier_intervalle ( FILE * f , int min, int max ) ;
 float lire_float ( FILE * f ) ;
 char * lire_string ( FILE * f) ;
+int lire_mot_clef ( FILE * f , const char * mot ) ;
 
 #endif
