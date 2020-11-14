@@ -16,6 +16,7 @@ CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH)
 
 all: $(MAIN)
 
+matrices_operations_tests: bin/matrices_operations_tests
 
 matrice_test: bin/matrice_test 
 
@@ -27,6 +28,10 @@ bin/apprentissage: src/main_apprentissage.c $(MODULES_APPRENTISSAGE)
 
 bin/evaluation: src/main_evaluation.c $(MODULES_EVALUATION)
 	gcc $(CFLAGS) src/main_evaluation.c -o bin/evaluation  $(MODULES_EVALUATION) $(LIBS)
+
+# Pour le module matrices_operations.c : 
+bin/matrices_operations_tests: tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o
+	gcc $(CFLAGS) tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o -o bin/matrices_operations_tests
 
 
 # Pour le module matrices.c : 

@@ -5,26 +5,22 @@
 
 
 
-int copie_matrice(
-		  struct matrice_s * m1,
-		  struct matrice_s * m2 )
-{
-}
 
 
 
-int transpose_matrice(
-		      struct matrice_s * m1,
-		      struct matrice_s * m2 )
-{
-}
 
-int addition_matrice_scalaire(
-			      struct matrice_s * m1,
-			      struct matrice_s * m2,
-			      struct matrice_s * m3 ,
-			      float mu ) 
-{
+int addition_matrice_scalaire(struct matrice_s * m1,struct matrice_s * m2,struct matrice_s * m3 ,float mu ){
+	
+	int  i,j;
+	
+	for (i=0; i< m1->nb_lignes ;i++){
+		for (j=0;j< m1->nb_cols;j++){
+			m3->matrice[i][j]=m1->matrice[i][j]+m2->matrice[i][j];
+		}
+	}
+	
+	return 0;	
+	
 }
 /*
   Les valeurs d'activation des neurones d'une couche sont stockées
@@ -42,6 +38,7 @@ int multiplication_matrice(
 			   struct matrice_s * m2,
 			   struct matrice_s * m3 )
 {
+	return 0;
 }
 
 
@@ -80,6 +77,8 @@ matrice_apply_three_args (
   for ( i = 0 ; i < m1->nb_lignes ; i++ )
     for ( j = 0 ; j < m1->nb_cols ; j++ )
       m4->matrice[i][j] = (*f) ( m1->matrice[i][j] , m2->matrice[i][j] , m3->matrice[i][j] ) ;
+   
+  
 }
 
 
