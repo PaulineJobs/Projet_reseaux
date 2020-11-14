@@ -4,13 +4,13 @@
 #include "type_couche.h"
 
 union couche_data {
-  matrice_t m ;
-  fonction_d_activation f ;
+  struct matrice_s * m ;
+  struct fonction_d_activation_s * f ;
 } ;
 
 struct inter_couche_s {
-  matrice_t p ; // couche precedente
-  matrice_t s ; // couche suivante
+  struct matrice_s * p ; // couche precedente
+  struct matrice_s * s ; // couche suivante
 } ;
 /*
   chaque couche est responsable de l'allocation de la partie p
@@ -23,8 +23,8 @@ struct couche_s {
   struct inter_couche_s erreur ;
   union couche_data data ;
   void ( * detruit )( struct couche_s * ) ;
-  void ( * propagation )( matrice_t , struct couche_s * ) ;
-  void ( * retro_propagation ) ( matrice_t , float , struct couche_s * ) ;
+  void ( * propagation )( struct matrice_s * , struct couche_s * ) ;
+  void ( * retro_propagation ) ( struct matrice_s * , float , struct couche_s * ) ;
   int ( * sauve ) ( FILE * , struct couche_s * ) ;
 } ;
 

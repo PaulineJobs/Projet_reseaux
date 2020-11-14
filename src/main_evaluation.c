@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include "utils.h"
-#include "matrices.h"
-#include "activation.h"
-#include "reseau.h"
-#include "apprentissage.h"
-#include "evaluation.h"
 #include "specification.h"
+#include "reseau.h"
+#include "evaluation.h"
 
 int main ( int argc , char * argv[] )
 {

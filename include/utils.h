@@ -4,14 +4,14 @@
 #ifndef NDEBUG
 #define log(...)				\
   do {							\
-    fprintf ( stderr , __VA_ARGS__ ) ;	\
+    fprintf ( stderr ,  __VA_ARGS__ ) ;	\
     fflush ( stderr ) ;					\
   } while ( 0 )
 #else
 #define log(...) ((void) 0)
 #endif
 
-void log_show_position ( FILE * f );
+
 void lire_donnee ( FILE * f , char * format , void * res ) ;
 int lire_entier ( FILE * f ) ;
 // de min inclus à max exclus. max ignoré si max <= min

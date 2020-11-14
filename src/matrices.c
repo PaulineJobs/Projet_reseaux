@@ -45,7 +45,7 @@ Aides :
 
 /* Cette fonction libère toute la mémoire qui a été allouée dans la
 fonction suivante pour stocke une matrice */
-void detruit_matrice ( matrice_t m ){
+void detruit_matrice ( struct matrice_s * m ){
     int i;
     int j;
     for (i=0; i < m->nb_lignes; i++){
@@ -70,12 +70,12 @@ void detruit_matrice ( matrice_t m ){
 
 /*Cette fonction alloue de la place pour stocker une structure 
 matrice, un tableau de ligne, ainsi que chaque ligne */
-matrice_t creation_matrice ( int nb_lignes , int nb_colonnes ){
+struct matrice_s * creation_matrice ( int nb_lignes , int nb_colonnes ){
     int tmp_ligne;
-    matrice_t tmp_new_matrice;
+    struct matrice_s * tmp_new_matrice;
 
     // demander au systeme d'allouer de la mémoire pour stocker une structure matrice.
-    tmp_new_matrice = (matrice_t) malloc(sizeof(matrice_t));
+    tmp_new_matrice = (struct matrice_s *) malloc(sizeof(struct matrice_s *));
     //printf("Toute la matrice est ok");
 
     //a la matrice qui "pointe" vers le nombre de lignes (resp. colonnes) on lui donne la valeur nb_lignes (resp. nb_colonnes)
@@ -96,14 +96,33 @@ matrice_t creation_matrice ( int nb_lignes , int nb_colonnes ){
 	return tmp_new_matrice;
 }
 
+/*
+  Si *e == NULL , il faut créer une matrice 1 x n et la mettre dans
+  *e.  Maintenant que *e contient une matrice 1 x n, il faut recopier
+  les coefficients du tableau t dans cette matrice.
+ */
+int matrice_ligne ( struct matrice_s * * e , float * t , int n ) {
+  int i ;
+  if( *e == NULL )
+          {
+            *e = creation_matrice ( 1 , n ) ;
+          }
+  for ( i = 0 ; i < n ; i++ )
+    (*e)->matrice[0][i] = t[i] ;
+  return 0 ;
+}
 
 
+/*
+  Cette fonction crée et initialise une matrice n x m avec des |float|
+  dans [ -1 , 1 ].
+*/
 /* Cette fonction appelle la fonction creation_matrice, puis 
 met un nombre aléatoire entre -1 et 1 (un float) dans chaque
 coefficient. */
-matrice_t creation_matrice_aleatoire ( int in_nb_lignes , int in_nb_colonnes ){
+struct matrice_s * creation_matrice_aleatoire ( int in_nb_lignes , int in_nb_colonnes ){
     int i,j;
-    matrice_t   tmp_out_matrice;
+    struct matrice_s *   tmp_out_matrice;
     float       tmp_valeur;
 
     //on alloue de la memoire pour contenir les valeur de la matrice aleatoire : 
@@ -125,16 +144,19 @@ matrice_t creation_matrice_aleatoire ( int in_nb_lignes , int in_nb_colonnes ){
 }
 
 
-
+/*
+  Cette fonction demande à l'utilisateur les dimensions et les
+  coefficients d'une matrice, et renvoie la matrice correspondante.
+*/
 /* Cette fonction commence par demander à un utilisateur le nombre de
 lignes et de colonnes de la matrice à créer. Elle appelle la
 fonction creation_matrice, puis demande à l'utilisateur chaque
 coefficient. */
-matrice_t creation_matrice_utilisateur ( ){
+struct matrice_s * creation_matrice_utilisateur ( ){
     int i,j;
     int tmp_nb_lignes_lu = 0;
     int tmp_nb_cols_lu = 0;
-    matrice_t tmp_out_matrice;
+    struct matrice_s * tmp_out_matrice;
 
     printf("\nNbre de lignes désirées : ");
     scanf("%d", &tmp_nb_lignes_lu);
@@ -162,10 +184,13 @@ des fichiers déjà ouverts. Le format choisi est d'écrire le nombre
 de lignes et de colonnes de la matrice, puis tous les
 coefficients.
 */
+/*
+  Cette fonction lit une matrice qui a été stockée dans un fichier.
+*/
 //La fonction suivante lit dans le fichier le nombre de lignes, colonnes, ainsi que les valeurs de la matrice.
-int lire_matrice_fichier ( FILE * f , matrice_t * m ){     // utilisation : result = lire_matrice_fichier (mon_fichier, ma_matrice);
+int lire_matrice_fichier ( FILE * f , struct matrice_s * * m ){     // utilisation : result = lire_matrice_fichier (mon_fichier, ma_matrice);
     int i,j;
-    matrice_t  tmp_out_matrice;
+    struct matrice_s *  tmp_out_matrice;
     int tmp_nb_lignes_lu = 0;
     int tmp_nb_cols_lu = 0;
 
@@ -190,8 +215,12 @@ int lire_matrice_fichier ( FILE * f , matrice_t * m ){     // utilisation : resu
     return 1;
 }
 
+/*
+  Cette fonction sauve une matrice dans un fichier. Elle
+  doit utiliser la même format que lit_matrice_fichier
+*/
 //La fonction suivante ecrit dans le fichier le nombre de lignes, colonnes, ainsi que les valeurs de la matrice.
-int sauve_matrice_fichier ( FILE * f , matrice_t m ){
+int sauve_matrice_fichier ( FILE * f , struct matrice_s * m ){
     int i,j;
 
     fprintf(f,"%d", m->nb_lignes);
@@ -207,8 +236,11 @@ int sauve_matrice_fichier ( FILE * f , matrice_t m ){
 
 
 
+/*
+  Cette fonction affiche une matrice.
+*/
 // Affichage d'une matrice :  
-void affiche_matrice ( matrice_t m ){
+void affiche_matrice ( struct matrice_s * m ){
     //affichage du nombre contenu dans la ligne i à la colonne j
     int i=0;
     int j=0;
@@ -221,5 +253,16 @@ void affiche_matrice ( matrice_t m ){
         printf("\n");
     }
     return;
+}
+
+/*
+  Copie le contenu de la matrice m1 dans la matrice m2.
+  Les 2 matrices existent et ont les mêmes dimensions.
+*/
+int copie_matrice(
+                  struct matrice_s * m1,
+                  struct matrice_s * m2 )
+{
+  return 0 ;
 }
 

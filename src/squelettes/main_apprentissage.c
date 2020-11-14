@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "matrices.h"
 #include "activation.h"
+#include "specification.h"
 #include "reseau.h"
 #include "apprentissage.h"
 #include "specification.h"
@@ -13,7 +14,7 @@ int main ( int argc , char * argv[] )
 {
   FILE * f ;
   struct reseau_s * reseau ;
-  specification_reseau specification_reseau ;
+  struct specification_reseau_s * specification_reseau ;
   if ( argc != 2 ) return 1 ;
   specification_reseau = demande_specification_utilisateur() ;
   reseau = creation_reseau ( specification_reseau ) ;

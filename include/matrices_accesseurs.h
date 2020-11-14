@@ -4,16 +4,16 @@
 /*
   Accesseurs sur les matrices
  */
-int nb_lignes ( matrice_t m ) ;
+int nb_lignes ( struct matrice_s * m ) ;
 
-int nb_cols ( matrice_t m ) ;
+int nb_cols ( struct matrice_s * m ) ;
 
-int matrice_set (matrice_t m, int num_ligne , int num_colonne, float value);
+int matrice_set (struct matrice_s * m, int num_ligne , int num_colonne, float value);
 
-int matrice_get (matrice_t m, int num_ligne, int num_colonne , float * value );
+int matrice_get (struct matrice_s * m, int num_ligne, int num_colonne , float * value );
 
 // adresse stockant l'adresse des coefficients
-float *** matrice_raw(matrice_t m ) ;
+float *** matrice_raw(struct matrice_s * m ) ;
 
 
 #endif

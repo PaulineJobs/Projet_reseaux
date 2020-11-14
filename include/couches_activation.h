@@ -6,7 +6,7 @@
 // la couche suivante.
 struct couche_s *
 couche_activation (
-		   fonction_d_activation fun ,
+		   struct fonction_d_activation_s * fun ,
 		   struct couche_s * suivante  ) ;
 
 #endif

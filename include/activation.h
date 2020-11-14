@@ -8,27 +8,21 @@
 
 typedef enum  {
 				       fonction_d_activation_identity = 0,
-				       fonction_d_activation_binary_step = 1 ,
-				       fonction_d_activation_logistic = 2 ,
-				       fonction_d_activation_tan_h = 3 ,
-				       fonction_d_activation_arctan = 4 ,
-				       fonction_d_activation_signe_doux = 5 ,
-				       fonction_d_activation_relu = 6 ,
 				       fonction_d_activation_nombre ,
 } id_fonction_d_activation ;
 
 
-typedef struct fonction_d_activation_s * fonction_d_activation ;
 
 
 
-fonction_d_activation 
+struct fonction_d_activation_s * 
 choix_fonction_d_activation ( id_fonction_d_activation id ) ;
 
-int sauve_fonction_d_activation ( FILE * f , fonction_d_activation fun ) ;
+int sauve_fonction_d_activation ( FILE * f , struct fonction_d_activation_s * fun ) ;
 
-int lit_fonction_d_activation ( FILE * f , fonction_d_activation * fun ) ;
+int lit_fonction_d_activation ( FILE * f , struct fonction_d_activation_s * * fun ) ;
 
+id_fonction_d_activation demande_fonction_d_activation () ;
 
 
 #endif

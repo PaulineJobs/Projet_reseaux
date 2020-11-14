@@ -61,6 +61,9 @@ void log_show_position ( FILE * f ) {
 }
 
 
+/*
+  Voir les TPs, = libentrée, sauf qu'on lit dans un fichier f
+ */
 void lire_donnee ( FILE * f , char * format , void * res ){         //extrait la donnée correspondant au format dans le fichier et la retourner dans variable pointée par res
 	fscanf(f,format,res);                                           //fscanf lit "res" de format"format"
 	
@@ -128,6 +131,11 @@ char * lire_string (FILE * f ) {                       //lit une chaine de carac
 
 //cadeau du prof
 
+/*
+  Cadeau, fonction compliquée sur un fichier... On tente de lire un
+  mot, si ça échoue, on revient au point de départ et on revoie 1,
+  si ça réussit, on reste à la fin du mot et on renvoie 0.
+ */
 int lire_mot_clef ( FILE * f , const char * mot ) {
   int c ;
   long int

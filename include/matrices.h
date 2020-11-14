@@ -2,19 +2,18 @@
 #define MATRICES_H
 
 
-typedef struct matrice_s * matrice_t ;
-
-/*
-  	Cette fonction libère toute la mémoire qui a été allouée dans la
-	fonction suivante pour stocker une matrice.	
- */
-void detruit_matrice ( matrice_t m ) ;
 
 /*
 	Cette fonction alloue de la place pour stocker une structure
 	matrice, un tableau de lignes, ainsi que chaque ligne.
  */
-matrice_t creation_matrice ( int nb_lignes , int nb_colonnes ) ;
+struct matrice_s * creation_matrice ( int nb_lignes , int nb_colonnes ) ;
+
+/*
+  	Cette fonction libère toute la mémoire qui a été allouée dans la
+	fonction suivante pour stocker une matrice.	
+ */
+void detruit_matrice ( struct matrice_s * m ) ;
 
 /*
  	Création d'une matrice ligne à partir d'un tableau:
@@ -26,7 +25,7 @@ matrice_t creation_matrice ( int nb_lignes , int nb_colonnes ) ;
 	Il ne faut pas appeler detruit_matrice sur le resultat de cette
 	fonction.
 */
-int matrice_ligne ( matrice_t * m , float * t , int n ) ;
+int matrice_ligne ( struct matrice_s * * m , float * t , int n ) ;
 
 
 /*
@@ -34,7 +33,7 @@ int matrice_ligne ( matrice_t * m , float * t , int n ) ;
 	met un nombre aléatoire entre -1 et 1 (un float) dans chaque
 	coefficient.
  */
-matrice_t creation_matrice_aleatoire ( int nb_lignes , int nb_colonnes ) ;
+struct matrice_s * creation_matrice_aleatoire ( int nb_lignes , int nb_colonnes ) ;
 
 
 /*
@@ -43,7 +42,7 @@ matrice_t creation_matrice_aleatoire ( int nb_lignes , int nb_colonnes ) ;
 	fonction creation_matrice, puis demande à l'utilisateur chaque
 	coefficient.
  */
-matrice_t creation_matrice_utilisateur (  ) ;
+struct matrice_s * creation_matrice_utilisateur (  ) ;
 
 /* 
 	les deux fonctions suivantes lisent et écrivent des matrices dans
@@ -51,13 +50,21 @@ matrice_t creation_matrice_utilisateur (  ) ;
 	de lignes et de colonnes de la matrice, puis tous les
 	coefficients.
 */
-int lire_matrice_fichier ( FILE * f , matrice_t * m ) ;
+int lire_matrice_fichier ( FILE * f , struct matrice_s * * m ) ;
 
-int sauve_matrice_fichier ( FILE * f , matrice_t m ) ;
+int sauve_matrice_fichier ( FILE * f , struct matrice_s * m ) ;
 
 /*
 	Cette fonction affiche une matrice.
  */
-void affiche_matrice ( matrice_t m ) ;
+void affiche_matrice ( struct matrice_s * m ) ;
+
+/*
+  pré-condition: les matrices m1 et m2 existent, et ont les mêmes
+  dimensions.
+  effet: copie les coefficients de m1 dans m2
+*/
+int copie_matrice(struct matrice_s * m1, struct matrice_s * m2);
+
 
 #endif
