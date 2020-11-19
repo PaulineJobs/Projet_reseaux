@@ -5,7 +5,21 @@
 
 
 
+/*
+  Transpose m1 et met le résultat dans m2
+ */
+int transpose_matrice(struct matrice_s * m1, struct matrice_s * m2 )
+{
+   int i,j;
+   //m2 = creation_matrice(m1->nb_cols, m2->nb_lignes);
+   for (i=0; i< m2->nb_lignes; i++){
+       for (j=0; j< m2->nb_cols; j++){
+           m2->matrice[i][j] = m1->matrice[j][i];
+       }
+   }
+   return 0;
 
+}
 
 
 
