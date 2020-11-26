@@ -130,11 +130,7 @@ void matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 , 
  
 int multiplication_matrice_retro_propagation(struct matrice_s * m1, struct matrice_s * m2,struct matrice_s * m3 ) {
 
-    int nb_lignes = m1->nb_colonnes;
-    int nb_colonnes =m1->nb_lignes
-    struct matrice_s * mA = NULL;
-    mA=creation_matrice (nb_lignes ,nb_colonnes)
-    mA=transpose_matrice(struct matrice_s * m1, struct matrice_s * mA );
+
 	
   return 1 ;
 }
