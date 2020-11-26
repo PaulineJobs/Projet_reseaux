@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <math.h>
 #include "matrices_struct.h"
+#include <stdio.h>
 
 
 
@@ -129,10 +130,29 @@ void matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 , 
  */
  
 int multiplication_matrice_retro_propagation(struct matrice_s * m1, struct matrice_s * m2,struct matrice_s * m3 ) {
-
-
-	
-  return 1 ;
+    if (m1->nb_cols != m2->nb_cols){
+        printf("erreur : nbr cols de matrice 1 différent de nbr cols matrice 2");
+        return 1;
+    } else if (m1->nb_lignes != m3->nb_lignes){
+        printf("erreur : nbr lignes de matrice 1 différent de nbr lignes matrice 3");
+        return 1;
+    } else if (m2->nb_lignes != m3->nb_cols){
+        printf("erreur : nbr lignes de matrice 2 différent de nbr cols matrice 3");
+        return 1;
+    } else {
+        for (int i=0;i<m3->nb_lignes;i++){
+            for (int j=0;i<m3->nb_cols;j++){
+                int norme =0;
+                m3->matrice[i][j]=0;
+                for (int k=0;i<m1->nb_cols;k++){
+                    m3->matrice[i][j]-=m1->matrice[i][j]*m2->matrice[i][j];
+                    norme = norme + (m2->matrice[i][j])*(m2->matrice[i][j]);
+                }
+            m3->matrice[i][j]=(m3->matrice[i][j])/(sqrt(norme));
+            }
+        }
+    }
+    return 0 ;
 }
 
 void matrice_mise_a_jour_coefficients( struct matrice_s * erreurs_couche_suivante ,struct matrice_s * activations_couche_precedente , struct matrice_s * coefficients ,float lambda ){
