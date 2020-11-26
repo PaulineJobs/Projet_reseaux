@@ -12,7 +12,7 @@
 
 int main (){
 
-    matrice_t matrice = NULL;
+    struct matrice_s* matrice = NULL;
     FILE * fichier = NULL;
     int result = 0;
 
