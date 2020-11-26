@@ -27,15 +27,16 @@ int addition_matrice_scalaire(struct matrice_s * m1,struct matrice_s * m2,struct
 	
 	int  i,j;
 	
-	for (i=0; i< m1->nb_lignes ;i++){
-		for (j=0;j< m1->nb_cols;j++){
-			m3->matrice[i][j]=m1->matrice[i][j]+m2->matrice[i][j];
+	for (i=0; i< m1->nb_lignes ;i++){                                  //on crée une boucle pour parcourir toutes les lignes de chaque matrice
+		for (j=0;j< m1->nb_cols;j++){                                  // on crée une boucle pour parcourir chaque element de la ligne dont il est question 
+			m3->matrice[i][j]=m1->matrice[i][j]+mu*(m2->matrice[i][j]);     // on additionne les coefficients m1[i][j]+mu*(m2[i][j]) et on les met dans une troisième matrice à l'emplacement m3[i][j]
 		}
-	}
+	}                                                                 // gràce aux boucles on répète l'opération pour chaque case des matrices
 	
 	return 0;	
 	
 }
+
 /*
   Les valeurs d'activation des neurones d'une couche sont stockées
   dans un vecteur ligne (une matrice \(1\times n\). On passe d'une
@@ -47,13 +48,26 @@ int addition_matrice_scalaire(struct matrice_s * m1,struct matrice_s * m2,struct
   que |m3| a le même nombre de lignes que |m1| et le même nombre de
   colonnes que |m2|.
  */
-int multiplication_matrice(
-			   struct matrice_s * m1,
-			   struct matrice_s * m2,
-			   struct matrice_s * m3 )
-{
+ 
+int multiplication_matrice(struct matrice_s * m1, struct matrice_s * m2, struct matrice_s * m3 ){
+	
+	int  i,j,k;
+	
+	for(i=0;i< m1->nb_lignes ;i++){                        //on parcours toutes les lignes de la matrice A
+		
+            for(j=0;j< m2->nb_cols ;j++){                  // on parcours toutes lignes de la matrice B
+				
+                for(k=0;k<m2->nb_lignes;k++){             // on parcours toutes les lignes de la matrice B
+					
+					(m3->matrice[i][j])=(m3->matrice[i][j])+((m1->matrice[i][k])*(m2->matrice[k][j]));  //on fait le produit scalaire de la ligne i de la matrice 1 avec la colonne j de la matrice 2  
+				}																						//et on place la résultats dans la matrice m3[i][j]
+					
+			}
+																// grâce aux boucles on répète l'opération pour remplir toutes les cases de m3
+	}
 	return 0;
 }
+
 
 
 
@@ -61,39 +75,44 @@ int multiplication_matrice(
   apply the function f on all the elements of m1 and puts the result in m2
  */
 
-void
-matrice_apply_one_arg (
-		       struct matrice_s * m1 ,
-			float ( * f ) ( float ) ,
-			struct matrice_s * m2 )
-{
+void matrice_apply_one_arg (struct matrice_s * m1 ,float(*f)(float),struct matrice_s * m2 ) {
+   int i,j;
+
+   for (i=0; i < m1->nb_lignes; i++) {
+     for (j=0; j < m1->nb_cols; j++) {
+       m2->matrice[i][j] = (*f) (m1->matrice[i][j]);
+     }
+   }
+
 }
 
 
 
-void
-matrice_apply_two_args (
-			struct matrice_s * m1 ,
-			 struct matrice_s * m2 ,
-			 float ( * f ) ( float , float ) ,
-			struct matrice_s * m3 )
-{
+void matrice_apply_two_args ( struct matrice_s * m1 , struct matrice_s * m2 , float ( * f ) ( float , float ) , struct matrice_s * m3 ){
+   int i,j;
+
+   for (i=0; i < m1->nb_lignes; i++) {
+     for (j=0; j < m1->nb_cols; j++) {
+       m3->matrice[i][j] = (*f) (m1->matrice[i][j],m2->matrice[i][j]);
+     }
+   }
+
 }
-void
-matrice_apply_three_args (
-			  struct matrice_s * m1 ,
-			   struct matrice_s * m2 ,
-			   struct matrice_s * m3 ,
-			   float ( * f ) ( float , float , float ) ,
-			   struct matrice_s * m4 )
-{
-  int i , j ;
-  for ( i = 0 ; i < m1->nb_lignes ; i++ )
-    for ( j = 0 ; j < m1->nb_cols ; j++ )
-      m4->matrice[i][j] = (*f) ( m1->matrice[i][j] , m2->matrice[i][j] , m3->matrice[i][j] ) ;
-   
-  
+	
+	
+
+
+void matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 , struct matrice_s * m3 , float ( * f ) ( float , float , float ) ,struct matrice_s * m4 ){
+   int i,j;
+
+   for (i=0; i < m1->nb_lignes; i++) {
+     for (j=0; j < m1->nb_cols; j++) {
+       m4->matrice[i][j] = (*f) (m1->matrice[i][j],m2->matrice[i][j],m3->matrice[i][j]);
+     }
+   }
+
 }
+
 
 
 /*
@@ -108,18 +127,19 @@ matrice_apply_three_args (
   le premier argument est maintenant la ligne sur la couche \(n+1\),
   et le troisième est la ligne sur la couche \(n\).
  */
-int multiplication_matrice_retro_propagation(
-					     struct matrice_s * m1,
-					     struct matrice_s * m2,
-					     struct matrice_s * m3 )
-{
+ 
+int multiplication_matrice_retro_propagation(struct matrice_s * m1, struct matrice_s * m2,struct matrice_s * m3 ) {
+
+    int nb_lignes = m1->nb_colonnes;
+    int nb_colonnes =m1->nb_lignes
+    struct matrice_s * mA = NULL;
+    mA=creation_matrice (nb_lignes ,nb_colonnes)
+    mA=transpose_matrice(struct matrice_s * m1, struct matrice_s * mA );
+	
   return 1 ;
 }
 
-void matrice_mise_a_jour_coefficients (
-				       struct matrice_s * erreurs_couche_suivante ,
-				       struct matrice_s * activations_couche_precedente ,
-				       struct matrice_s * coefficients ,
-				       float lambda )
-{
+void matrice_mise_a_jour_coefficients( struct matrice_s * erreurs_couche_suivante ,struct matrice_s * activations_couche_precedente , struct matrice_s * coefficients ,float lambda ){
+
+	
 }

@@ -136,10 +136,9 @@ matrice_t creation_matrice_utilisateur ( ){
     int tmp_nb_cols_lu = 0;
     matrice_t tmp_out_matrice;
 
-    printf("\nNbre de lignes désirées : ");
+    printf("Nbre de lignes désirées : ");
     scanf("%d", &tmp_nb_lignes_lu);
-
-    printf("\nNbre de colonnes désirées : ");
+    printf("Nbre de colonnes désirées : ");
     scanf("%d", &tmp_nb_cols_lu);
 
     //on alloue de la memoire pour contenir les valeur de la matrice de l'utilisateur : 

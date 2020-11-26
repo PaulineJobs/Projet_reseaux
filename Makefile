@@ -14,7 +14,7 @@ DEBUG:= -g3 -Wno-unused-value
 #CFLAGS:=-Wall  -Werror $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH) 
 CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH)
 
-all: $(MAIN)
+all: $(MAIN) matrices_operations_tests matrice_test utils_test
 
 matrices_operations_tests: bin/matrices_operations_tests
 
