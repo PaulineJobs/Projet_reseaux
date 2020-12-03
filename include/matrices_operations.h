@@ -1,10 +1,22 @@
 #ifndef MATRICES_OPERATIONS_H
 #define MATRICES_OPERATIONS_H
 
+#include "matrices_struct.h"
+
 
 /*
   Opérations de base sur les matrices
  */
+
+
+/*
+  pré-condition: les matrices m1 et m2 existent, et ont les mêmes
+  dimensions.
+  effet: copie les coefficients de m1 dans m2
+*/
+int copie_matrice(struct matrice_s * m1, struct matrice_s * m2);
+
+
 
 /*
   pré-condition: Les deux matrices existent. Si la matrice m1 a n lignes 
@@ -56,26 +68,29 @@ void matrice_mise_a_jour_coefficients (
   dimensions.
   effet: m2[i][j] = f ( m1[i][j] ) 
 */
-void
-matrice_apply_one_arg ( struct matrice_s * m1 , float ( * f ) ( float ) , struct matrice_s * m2 ) ;
+void matrice_apply_one_arg ( struct matrice_s * m1 , float ( * f ) ( float ) , struct matrice_s * m2 ) ;
 
 /*
   pré-condition: les matrices m1, m2, et m3 existent, et ont les mêmes
   dimensions.
   effet: m3[i][j] = f ( m1[i][j] ,m2[i][j] ) 
 */
-void
-matrice_apply_two_args ( struct matrice_s * m1 , struct matrice_s * m2 , float ( * f ) ( float , float ) , struct matrice_s * m3 ) ;
+void matrice_apply_two_args ( struct matrice_s * m1 , struct matrice_s * m2 , float ( * f ) ( float , float ) , struct matrice_s * m3 ) ;
 
 /*
   pré-condition: les matrices m1, m2, m3, et m4 existent, et ont les
   mêmes dimensions.
   effet: m4[i][j] = f ( m1[i][j] , m2[i][j] , m3[i][j] ) 
 */
-void
-matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 ,  struct matrice_s * m3 , float ( * f ) ( float , float , float ) , struct matrice_s * m4 ) ;
+void matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 ,  struct matrice_s * m3 , float ( * f ) ( float , float , float ) , struct matrice_s * m4 ) ;
 
 int multiplication_matrice_retro_propagation (struct matrice_s * m1, struct matrice_s * m2, struct matrice_s * m3) ;
+
+void matrice_mise_a_jour_coefficients (
+				       struct matrice_s * erreurs_couche_suivante ,
+				       struct matrice_s * activations_couche_precedente ,
+				       struct matrice_s * coefficients ,
+				       float lambda ) ;
 
 
 #endif
