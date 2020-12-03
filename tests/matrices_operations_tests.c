@@ -45,7 +45,7 @@ int main (){
 
     printf("Création de matrice 1 : \n");
     //déclarartion de la matrice1
-    matrice_t matrice1 = NULL;
+    struct matrice_s *matrice1 = NULL;
     //initialisation/création et affichage de la matrice utilisateur :
     matrice1 = creation_matrice_utilisateur();
     printf("la matrice utilisateur 1 est : \n");
@@ -54,7 +54,7 @@ int main (){
 
     printf("Création de matrice 2 : \n");
     //déclarartion de la matrice2
-    matrice_t matrice2 = NULL;
+    struct matrice_s *matrice2 = NULL;
     //initialisation/création et affichage de la matrice utilisateur :
     matrice2 = creation_matrice_utilisateur();
     printf("la matrice utilisateur 2 est : \n");
@@ -73,7 +73,7 @@ int main (){
     //declarartion matrice A
     int nb_lignes=matrice1->nb_lignes ;
 	int nb_colonnes=matrice1->nb_lignes ;
-    matrice_t matriceA = NULL;
+    struct matrice_s *matriceA = NULL;
     matriceA=creation_matrice (nb_lignes ,nb_colonnes);
     printf("La transposée de la matrice 1 est : \n");
     transpose_matrice(matrice1,matriceA);
@@ -84,7 +84,7 @@ int main (){
 
     printf("Test de la fonction addition_scalaire_matrice:\n");
     //déclaration+allocation matrice 3 
-    matrice_t matriceB = NULL;
+    struct matrice_s *matriceB = NULL;
     matriceB=creation_matrice (nb_lignes ,nb_colonnes);
 	addition_matrice_scalaire(matrice1,matrice2, matriceB, mu );
 	printf("la matrice 1 + mu*2 est : \n");
@@ -94,7 +94,7 @@ int main (){
 
     printf("Test de la fonction multiplication_matrice:\n");
     //declaration matrice C
-	matrice_t matriceC = NULL;
+	struct matrice_s *matriceC = NULL;
 	matriceC=creation_matrice (nb_lignes ,nb_colonnes);
 	multiplication_matrice(matrice1, matrice2, matriceC );
 	printf("la matrice 1 * 2 est : \n");
@@ -105,7 +105,7 @@ int main (){
     printf("Test de la fonction matrice_apply_one_arg:\n");
     printf("La fonction utilisée élève tout les coefficients de matrice1 au carré\n");
     //declaration matrice D
-    matrice_t matriceD = NULL;
+    struct matrice_s *matriceD = NULL;
     matriceD=creation_matrice (nb_lignes ,nb_colonnes);	
     float (*pointeur_sur_carre_one_arg)(float);
     pointeur_sur_carre_one_arg=&carre_one_arg;
@@ -118,7 +118,7 @@ int main (){
     printf("Test de la fonction matrice_apply_two_arg:\n");
     printf("La fonction utilisée élève tout les coefficients de matrice1 et 2 au carré et les additionne\n");
     //declaration matrice E
-    matrice_t matriceE = NULL;
+    struct matrice_s *matriceE = NULL;
     matriceE=creation_matrice (nb_lignes ,nb_colonnes);	
     float (*pointeur_sur_carre_two_arg)(float,float);
     pointeur_sur_carre_two_arg=&carre_two_arg;
@@ -131,7 +131,7 @@ int main (){
     printf("Test de la fonction matrice_apply_three_args:\n");
     printf("La fonction utilisée élève tout les coefficients de matrice1 ,2, et la transposéee de 1 au carré et les additionne\n");
     //declaration matrice F
-    matrice_t matriceF = NULL;
+    struct matrice_s *matriceF = NULL;
     matriceF=creation_matrice (nb_lignes ,nb_colonnes);	
     float (*pointeur_sur_carre_three_arg)(float,float,float);
     pointeur_sur_carre_three_arg=&carre_three_arg;
@@ -143,7 +143,7 @@ int main (){
 
     printf("Test de la fonction multiplication_matrice_retro_propagation:\n");
     //declaration matrice G
-    matrice_t matriceG = NULL;
+    struct matrice_s *matriceG = NULL;
     matriceG=creation_matrice (nb_lignes ,nb_colonnes);
     multiplication_matrice_retro_propagation(matrice1,matrice2,matriceG);
     printf("La matrice de rétro propagation entre la matrice 1 et 2 est: \n");
@@ -153,7 +153,7 @@ int main (){
 
     printf("Test de la fonction matrice_mise_a_jour_coefficients\n");
     //declaration matrice H
-    matrice_t matriceH = NULL;
+    struct matrice_s *matriceH = NULL;
     matriceH=creation_matrice (nb_lignes ,nb_colonnes);
     int lambda;
     printf("Entrez un entier lambda : ");
