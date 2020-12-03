@@ -27,11 +27,11 @@ int transpose_matrice(struct matrice_s * m1, struct matrice_s * m2 )
 
 int addition_matrice_scalaire(struct matrice_s * m1,struct matrice_s * m2,struct matrice_s * m3 ,float mu ){
 	
-	int  i,j;
+	int  l1,c1;
 	
-	for (i=0; i< m1->nb_lignes ;i++){                                  //on crée une boucle pour parcourir toutes les lignes de chaque matrice
-		for (j=0;j< m1->nb_cols;j++){                                  // on crée une boucle pour parcourir chaque element de la ligne dont il est question 
-			m3->matrice[i][j]=m1->matrice[i][j]+mu*(m2->matrice[i][j]);     // on additionne les coefficients m1[i][j]+mu*(m2[i][j]) et on les met dans une troisième matrice à l'emplacement m3[i][j]
+	for (l1=0; l1< m1->nb_lignes ;l1++){                                  //on crée une boucle pour parcourir toutes les lignes de chaque matrice
+		for (c1=0;c1< m1->nb_cols;c1++){                                  // on crée une boucle pour parcourir chaque element de la ligne dont il est question 
+			m3->matrice[l1][c1]=m1->matrice[l1][c1]+mu*(m2->matrice[l1][c1]);     // on additionne les coefficients m1[i][j]+mu*(m2[i][j]) et on les met dans une troisième matrice à l'emplacement m3[i][j]
 		}
 	}                                                                 // gràce aux boucles on répète l'opération pour chaque case des matrices
 	
