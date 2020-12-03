@@ -31,17 +31,17 @@ bin/evaluation: src/main_evaluation.c $(MODULES_EVALUATION)
 
 # Pour le module matrices_operations.c : 
 bin/matrices_operations_tests: tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o
-	gcc $(CFLAGS) tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o -o bin/matrices_operations_tests
+	gcc $(CFLAGS) tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o -o bin/matrices_operations_tests $(LIBS)
 
 
 # Pour le module matrices.c : 
 bin/matrice_test: tests/matricestest.c  lib/matrices.o 
-	gcc $(CFLAGS) tests/matricestest.c lib/matrices.o -o bin/matricestest
+	gcc $(CFLAGS) tests/matricestest.c lib/matrices.o -o bin/matricestest $(LIBS)
 
 
 # Programme de test du module utils
 bin/utils_test: tests/utils_test.c  lib/utils.o
-	gcc $(CFLAGS) tests/utils_test.c lib/utils.o -o bin/utils_test
+	gcc $(CFLAGS) tests/utils_test.c lib/utils.o -o bin/utils_test $(LIBS)
 
 
 lib/%.o: src/%.c 

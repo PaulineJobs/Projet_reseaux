@@ -1,8 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <stddef.h>
 #include <assert.h>
 #include <math.h>
 #include "matrices_struct.h"
-#include <stdio.h>
+
 
 
 
@@ -11,11 +13,10 @@
  */
 int transpose_matrice(struct matrice_s * m1, struct matrice_s * m2 )
 {
-   int i,j;
-   //m2 = creation_matrice(m1->nb_cols, m2->nb_lignes);
-   for (i=0; i< m2->nb_lignes; i++){
-       for (j=0; j< m2->nb_cols; j++){
-           m2->matrice[i][j] = m1->matrice[j][i];
+   int c1,l1;
+   for (l1=0; l1< m2->nb_lignes; l1++){                //on parcourt les lignes de la matrice1
+       for (c1=0; c1< m2->nb_cols; c1++){               // on parcourt ses colonnes
+           m2->matrice[l1][c1] = m1->matrice[c1][l1];       // on inverse les coefficients des lignes et des colonnes
        }
    }
    return 0;
@@ -52,16 +53,18 @@ int addition_matrice_scalaire(struct matrice_s * m1,struct matrice_s * m2,struct
  
 int multiplication_matrice(struct matrice_s * m1, struct matrice_s * m2, struct matrice_s * m3 ){
 	
-	int  i,j,k;
+	int  l1,l2,c2;
 	
-	for(i=0;i< m1->nb_lignes ;i++){                        //on parcours toutes les lignes de la matrice A
+	for(l1=0;l1< m1->nb_lignes ;l1++){                        //on parcours toutes les lignes de la matrice 1
 		
-            for(j=0;j< m2->nb_cols ;j++){                  // on parcours toutes lignes de la matrice B
+            for(c2=0;c2< m2->nb_cols ;c2++){                  // on parcours toutes les colonnes de la matrice 2
 				
-                for(k=0;k<m2->nb_lignes;k++){             // on parcours toutes les lignes de la matrice B
+                for(l2=0;l2<m2->nb_lignes;l2++){             // on parcours toutes les lignes de la matrice 2
 					
-					(m3->matrice[i][j])=(m3->matrice[i][j])+((m1->matrice[i][k])*(m2->matrice[k][j]));  //on fait le produit scalaire de la ligne i de la matrice 1 avec la colonne j de la matrice 2  
-				}																						//et on place la résultats dans la matrice m3[i][j]
+                    //on fait le produit scalaire de la ligne l1 de la  matrice 1  avec la colonne c2 de la matrice 2 
+                    //et on place la résultats dans la matrice m3 [l1][c2] 
+					(m3->matrice[l1][c2])=(m3->matrice[l1][c2])+((m1->matrice[l1][l2])*(m2->matrice[l1][c2]));
+				}																						
 					
 			}
 																// grâce aux boucles on répète l'opération pour remplir toutes les cases de m3
@@ -77,11 +80,13 @@ int multiplication_matrice(struct matrice_s * m1, struct matrice_s * m2, struct 
  */
 
 void matrice_apply_one_arg (struct matrice_s * m1 ,float(*f)(float),struct matrice_s * m2 ) {
-   int i,j;
+   int l2,c2;
 
-   for (i=0; i < m1->nb_lignes; i++) {
-     for (j=0; j < m1->nb_cols; j++) {
-       m2->matrice[i][j] = (*f) (m1->matrice[i][j]);
+   for (l2=0; l2 < m1->nb_lignes; l2++) {
+     for (c2=0; c2 < m1->nb_cols; c2++) {
+        // chaque coef de la matrice m2 prends la valeur du coefficient de la matrice 1 à qui ont lui a appliqué une fonction 
+        //m2[i][j]=f(m1[i][j]) 
+       m2->matrice[l2][c2] = (*f) (m1->matrice[l2][c2]);
      }
    }
 
@@ -90,25 +95,32 @@ void matrice_apply_one_arg (struct matrice_s * m1 ,float(*f)(float),struct matri
 
 
 void matrice_apply_two_args ( struct matrice_s * m1 , struct matrice_s * m2 , float ( * f ) ( float , float ) , struct matrice_s * m3 ){
-   int i,j;
+   int l3,c3;
 
-   for (i=0; i < m1->nb_lignes; i++) {
-     for (j=0; j < m1->nb_cols; j++) {
-       m3->matrice[i][j] = (*f) (m1->matrice[i][j],m2->matrice[i][j]);
+   for (l3=0; l3 < m1->nb_lignes; l3++) {
+     for (c3=0; c3 < m1->nb_cols; c3++) {
+        // chaque coef de la matrice m2 prends la valeur du coefficient de la matrice 1 et 2 à qui ont leur a appliqué une fonction 
+        //m3[i][j]=f(m1[i][j],m2[i][j])
+       m3->matrice[l3][c3] = (*f) (m1->matrice[l3][c3],m2->matrice[l3][c3]);
      }
    }
 
 }
+
+
+
 	
 	
 
 
 void matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 , struct matrice_s * m3 , float ( * f ) ( float , float , float ) ,struct matrice_s * m4 ){
-   int i,j;
+   int l4,c4;
 
-   for (i=0; i < m1->nb_lignes; i++) {
-     for (j=0; j < m1->nb_cols; j++) {
-       m4->matrice[i][j] = (*f) (m1->matrice[i][j],m2->matrice[i][j],m3->matrice[i][j]);
+   for (l4=0; l4 < m1->nb_lignes; l4++) {
+     for (c4=0; c4 < m1->nb_cols; c4++) {
+        // chaque coef de la matrice m2 prends la valeur du coefficient de la matrice 1,2,3 à qui ont leur a appliqué une fonction 
+        //m3[i][j]=f(m1[i][j],m2[i][j],m3[i][j])
+       m4->matrice[l4][c4] = (*f) (m1->matrice[l4][c4],m2->matrice[l4][c4],m3->matrice[l4][c4]);
      }
    }
 
@@ -131,31 +143,44 @@ void matrice_apply_three_args ( struct matrice_s * m1 , struct matrice_s * m2 , 
  
 int multiplication_matrice_retro_propagation(struct matrice_s * m1, struct matrice_s * m2,struct matrice_s * m3 ) {
     if (m1->nb_cols != m2->nb_cols){
-        printf("erreur : nbr cols de matrice 1 différent de nbr cols matrice 2");
+        printf("erreur : nbr cols de matrice 1 différent de nbr cols matrice 2\n");
         return 1;
     } else if (m1->nb_lignes != m3->nb_lignes){
-        printf("erreur : nbr lignes de matrice 1 différent de nbr lignes matrice 3");
+        printf("erreur : nbr lignes de matrice 1 différent de nbr lignes matrice 3\n");
         return 1;
     } else if (m2->nb_lignes != m3->nb_cols){
-        printf("erreur : nbr lignes de matrice 2 différent de nbr cols matrice 3");
+        printf("erreur : nbr lignes de matrice 2 différent de nbr cols matrice 3\n");
         return 1;
     } else {
-        for (int i=0;i<m3->nb_lignes;i++){
-            for (int j=0;i<m3->nb_cols;j++){
+        for (int l3=0;l3<m3->nb_lignes;l3++){
+            for (int c3=0;c3<m3->nb_cols;c3++){
                 int norme =0;
-                m3->matrice[i][j]=0;
-                for (int k=0;i<m1->nb_cols;k++){
-                    m3->matrice[i][j]-=m1->matrice[i][j]*m2->matrice[i][j];
-                    norme = norme + (m2->matrice[i][j])*(m2->matrice[i][j]);
+                m3->matrice[l3][c3]=0;
+                for (int c1=0;c1<m1->nb_cols;c1++){
+                    m3->matrice[l3][c3]-=m1->matrice[l3][c1]*m2->matrice[c3][c1];
+                    norme = norme + (m2->matrice[c3][c1])*(m2->matrice[c3][c1]);
                 }
-            m3->matrice[i][j]=(m3->matrice[i][j])/(sqrt(norme));
+                m3->matrice[l3][c3]=(m3->matrice[l3][c3])/(sqrt(norme));
             }
         }
     }
     return 0 ;
 }
 
-void matrice_mise_a_jour_coefficients( struct matrice_s * erreurs_couche_suivante ,struct matrice_s * activations_couche_precedente , struct matrice_s * coefficients ,float lambda ){
 
-	
+
+void matrice_mise_a_jour_coefficients( struct matrice_s * erreurs_couche_suivante ,struct matrice_s * activations_couche_precedente , struct matrice_s * coefficients ,float lambda ){
+    for (int lc=0;lc<coefficients->nb_lignes;lc++){
+        int vligne= activations_couche_precedente->matrice[0][lc];
+        for (int cc=0;cc<coefficients->nb_cols;cc++){
+            int erreur = erreurs_couche_suivante->matrice[0][cc];
+            coefficients->matrice[lc][cc]=coefficients->matrice[lc][cc]+lambda*vligne*erreur;
+        }
+    }
 }
+
+
+
+
+
+

@@ -141,6 +141,30 @@ int main (){
     printf("\n");
     printf("\n");
 
+    printf("Test de la fonction multiplication_matrice_retro_propagation:\n");
+    //declaration matrice G
+    matrice_t matriceG = NULL;
+    matriceG=creation_matrice (nb_lignes ,nb_colonnes);
+    multiplication_matrice_retro_propagation(matrice1,matrice2,matriceG);
+    printf("La matrice de rétro propagation entre la matrice 1 et 2 est: \n");
+    affiche_matrice(matriceG);
+    printf("\n");
+    printf("\n");
+
+    printf("Test de la fonction matrice_mise_a_jour_coefficients\n");
+    //declaration matrice H
+    matrice_t matriceH = NULL;
+    matriceH=creation_matrice (nb_lignes ,nb_colonnes);
+    int lambda;
+    printf("Entrez un entier lambda : ");
+    scanf("%d",&lambda);
+    printf("\n");
+    matrice_mise_a_jour_coefficients(matrice1,matrice2,matriceH,lambda);
+    printf("En supposant que la matrice 1 est la matrice erreurs_couche_suivante ,et que la matrice 2 est la matrice activations_couche_precedente,la matrice avec les coefficients mis à jour est: \n");
+    affiche_matrice(matriceH);
+    printf("\n");
+    printf("\n");
+
 
 }
 
