@@ -22,7 +22,7 @@ int main ( int argc , char * argv[] )
   
   if ( apprentissage_fichier ( argv[1] , reseau , 32 , & lambda ) )
     return 1 ;
-  if ( ( f = fopen ( "reseau.mat" , "w" ) ) == NULL )
+  if ( ( f = fopen ( "./reseau.mat" , "w" ) ) == NULL )
     {
       fprintf ( stderr , "Impossible d'écrire le réseau dans le fichier reseau.mat.\n" );
       return 1 ;

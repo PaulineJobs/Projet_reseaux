@@ -32,6 +32,7 @@ bin/apprentissage: src/main_apprentissage.c $(MODULES_APPRENTISSAGE)
 bin/evaluation: src/main_evaluation.c $(MODULES_EVALUATION)
 	gcc $(CFLAGS) src/main_evaluation.c -o bin/evaluation  $(MODULES_EVALUATION) $(LIBS)
 
+
 # Pour le module matrices_operations.c : 
 bin/matrices_operations_tests: tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o
 	gcc $(CFLAGS) tests/matrices_operations_tests.c lib/matrices_operations.o lib/matrices.o -o bin/matrices_operations_tests $(LIBS)
@@ -47,10 +48,14 @@ bin/utils_test: tests/utils_test.c  lib/utils.o
 	gcc $(CFLAGS) tests/utils_test.c lib/utils.o -o bin/utils_test $(LIBS)
 
 
+
 lib/%.o: src/%.c 
 	gcc $(CFLAGS) -c $< -o $@ 
 
 
+test: bin/apprentissage bin/evaluation
+	./bin/apprentissage tests/input_lineaire.csv < tests/input_lineaire.txt
+	./bin/evaluation tests/fonction_lineaire.csv
 
 clean:
 	find bin -maxdepth 1 -type f -exec \rm {} \;

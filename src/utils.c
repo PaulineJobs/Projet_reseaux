@@ -89,13 +89,13 @@ int lire_entier ( FILE * f ){          // lit un entier dans le fichier f de typ
 
 int lire_entier_intervalle (FILE * f, int min, int max ) {       // lit un entier dans un intervalle donné dans le fichier f de type FILE             
 	int entier;
-	if (max <= min){                                               // on verifie que l'intervalle soit bien definit
-		printf("l'intervalle n'est pas définit");                  //Sinon, on indique à l'utilisateur que l'intervalle n'est pas defini         
+	if (max < min){                                               // on verifie que l'intervalle soit bien definit
+		printf("l'intervalle n'est pas défini");                  //Sinon, on indique à l'utilisateur que l'intervalle n'est pas defini         
 		return min-1;                                             //Pour montrer qu'il y a une erreur, on return un nombre qui n'est pas compris dans l'intervalle (min-1 par exemple)          
 	}
 	else {                                                             
 		entier=lire_entier (f);                                           //on appelle une première fois la fonction "lire_entier" que l'on stocke dans "entier"
-		while (((entier < min) || (entier >= max)) && (feof(f)==0)){      // on verifie si l'entier appartient à l'intervalle, et, si on ne se trouve pas en fin de fichier (pour eviter que la boucle tourne à l'infini)             
+		while (((entier < min) || ((max>min) && (entier >= max))) && (feof(f)==0)){      // on verifie si l'entier appartient à l'intervalle, et, si on ne se trouve pas en fin de fichier (pour eviter que la boucle tourne à l'infini)             
 			entier=lire_entier (f);                                       // on recommence l'opération tant que l'entier n'est pas dans l'intervalle et tant qu'on est pas en fin de fichier                                 
 		}
 	}

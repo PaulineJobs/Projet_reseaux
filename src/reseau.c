@@ -12,6 +12,10 @@
  */
 void detruit_reseau ( struct reseau_s * r )
 {
+    free(r);
+    if (r!=NULL){
+        printf("erreur, le détruit reseau n'a pas fonctionné\n");
+    }
 }
 
 /*
