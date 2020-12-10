@@ -258,10 +258,13 @@ void affiche_matrice ( struct matrice_s * m ){
   Copie le contenu de la matrice m1 dans la matrice m2.
   Les 2 matrices existent et ont les mêmes dimensions.
 */
-int copie_matrice(
-                  struct matrice_s * m1,
-                  struct matrice_s * m2 )
-{
+int copie_matrice(struct matrice_s * m1, struct matrice_s * m2 ){
+    int i,j;
+    for (i=0; i<(m2->nb_lignes); i++){
+      for (j=0; j<(m2->nb_cols); j++){
+        m2->matrice[i][j] = m1->matrice[i][j];
+      }
+    }
   return 0 ;
 }
 
