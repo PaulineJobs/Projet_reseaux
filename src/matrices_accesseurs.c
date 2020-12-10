@@ -21,20 +21,26 @@ int nb_cols ( struct matrice_s * m )
   return colonne;
 }
 
-//Entre une valeur (value) sur une certaine ligne (num_ligne) d'une certaine colonne (num_colonne) de la matrice
+//Entre une valeur (value) à une certaine position (num_ligne et num_colonne)
 int matrice_set (struct matrice_s * m, int num_ligne , int num_colonne, float value)
 {
-  m->matrice[num_ligne][num_colonne]=value;
+  m->matrice[num_ligne][num_colonne] = value;
   return 0 ;
 }
 
+//Accesseur sur la valeur d'une certaine position
 int matrice_get(struct matrice_s * m, int num_ligne, int num_colonne , float * value )
 {
-  
+  (*value)=m->matrice[num_ligne][num_colonne];
   return 0 ;
 }
 
+
+/*
+Entrée : m pointeur sur une matrice
+Return : adresse de *m
+*/
 float *** matrice_raw(struct matrice_s * m )
 {
-  return NULL ;
+  return &(m->matrice) ;
 }

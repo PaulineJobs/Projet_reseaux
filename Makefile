@@ -16,7 +16,7 @@ CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH)
 
 
 
-all: $(MAIN) matrices_operations_tests matrice_test utils_test
+all: $(MAIN) matrices_operations_tests matrice_test utils_test matrices_accesseurs_test
 
 
 matrices_operations_tests: bin/matrices_operations_tests
@@ -24,6 +24,8 @@ matrices_operations_tests: bin/matrices_operations_tests
 matrice_test: bin/matrice_test 
 
 utils_test: bin/utils_test
+
+matrices_accesseurs_test: bin/matrices_accesseurs_test
 
 
 bin/apprentissage: src/main_apprentissage.c $(MODULES_APPRENTISSAGE)
@@ -45,6 +47,11 @@ bin/matrice_test: tests/matricestest.c  lib/matrices.o
 # Programme de test du module utils
 bin/utils_test: tests/utils_test.c  lib/utils.o
 	gcc $(CFLAGS) tests/utils_test.c lib/utils.o -o bin/utils_test $(LIBS)
+	
+
+# Pour le module matrices_accesseurs.c
+bin/matrices_accesseurs_test: tests/matrices_accesseurs_test.c lib/matrices_accesseurs.o
+	gcc $(CFLAGS) tests/matrices_accesseurs_test.c lib/matrices_accesseurs.o -o bin/matrices_accesseurs_test $(LIBS)
 
 
 lib/%.o: src/%.c 
