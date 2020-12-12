@@ -64,6 +64,8 @@ int ecrit_reseau_fichier (
 			   FILE * f ,
 			   struct reseau_s * r )
 {
+   fprintf(f,"Test d'ecriture dans le fichier\n");
+   return 0;
 }
 
 /*

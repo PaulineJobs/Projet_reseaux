@@ -12,7 +12,7 @@ LIBRARY_PATH:= lib
 DEBUG:= -g3 -Wno-unused-value
 # DEBUG:= -DNDEBUG 
 #CFLAGS:=-Wall  -Werror $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH) 
-CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH)
+CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH) -Wno-unused-function
 
 
 

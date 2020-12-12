@@ -6,9 +6,11 @@
 */
 int nb_lignes ( struct matrice_s * m )
 {
+	return m->nb_lignes;
 }
 int nb_cols ( struct matrice_s * m )
 {
+	return m->nb_cols;
 }
 
 int matrice_set (struct matrice_s * m, int num_ligne , int num_colonne, float value)

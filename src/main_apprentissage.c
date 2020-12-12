@@ -24,12 +24,14 @@ int main ( int argc , char * argv[] )
     return 1 ;
   if ( ( f = fopen ( "./reseau.mat" , "w" ) ) == NULL )
     {
-      fprintf ( stderr , "Impossible d'écrire le réseau dans le fichier reseau.mat.\n" );
+      //fprintf ( stderr , "Impossible d'écrire le réseau dans le fichier reseau.mat.\n" );
+      perror ("Impossible d'écrire le réseau dans le fichier reseau.mat.\n" );
       return 1 ;
     }
   if ( ecrit_reseau_fichier ( f , reseau ) )
     {
-      fprintf ( stderr , "Erreur lors de l'écriture du reseau dans le fichier reseau.mat.\n" );
+      //fprintf ( stderr , "Erreur lors de l'écriture du reseau dans le fichier reseau.mat.\n" );
+      perror ( "Erreur lors de l'écriture du reseau dans le fichier reseau.mat.\n" );
       fclose ( f ) ;
       return 1 ;
     }
