@@ -26,8 +26,7 @@ static float derivee_fonction_d_activation_Identity ( float x , float fx )
   d'activation et de la dérivée correspondante. Ces fonctions sont
   définies sur le modèle de la fonction d'identité
  */
-struct fonction_d_activation_s *
-choix_fonction_d_activation ( id_fonction_d_activation id )
+struct fonction_d_activation_s * choix_fonction_d_activation ( id_fonction_d_activation id )
 {
   return NULL ;
 }
