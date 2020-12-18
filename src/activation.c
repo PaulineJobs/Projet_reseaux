@@ -1,7 +1,7 @@
 #include <math.h>
 #include <assert.h>
 #include <stdio.h>
-#include <malloc.h>
+//#include <malloc.h>
 #include "activation_struct.h"
 #include "activation.h"
 #include "utils.h"

@@ -1,4 +1,5 @@
-#include <malloc.h>
+//#include <malloc.h>
+#include <stdio.h>
 #include "utils.h"
 #include "matrices.h"
 #include "matrices_accesseurs.h"
