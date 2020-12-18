@@ -25,22 +25,21 @@ int nb_cols ( struct matrice_s * m )
 int matrice_set (struct matrice_s * m, int num_ligne , int num_colonne, float value)
 {
   m->matrice[num_ligne][num_colonne] = value;
-  return 0 ;
+  return 0;
 }
 
 //Accesseur sur la valeur d'une certaine position
 int matrice_get(struct matrice_s * m, int num_ligne, int num_colonne , float * value )
 {
   (*value)=m->matrice[num_ligne][num_colonne];
-  return 0 ;
+  return 0;
 }
 
 
 /*
-Entrée : m pointeur sur une matrice
-Return : adresse de *m
+Return l'adresse de *m
 */
 float *** matrice_raw(struct matrice_s * m )
 {
-  return &(m->matrice) ;
+  return &(m->matrice);
 }

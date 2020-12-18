@@ -8,7 +8,7 @@ struct matrice_s * creation_matrice ( int nb_lignes , int nb_colonnes ){
     int tmp_ligne;
     struct matrice_s * tmp_new_matrice;
 
-    // demander au systeme d'allouer de la mémoire pour stocker une structure matrice.
+    // demander au systeme d'allouer de la memoire pour stocker une structure matrice.
     tmp_new_matrice = (struct matrice_s *) malloc(sizeof(struct matrice_s *));
     //printf("Toute la matrice est ok");
 
@@ -16,13 +16,13 @@ struct matrice_s * creation_matrice ( int nb_lignes , int nb_colonnes ){
     tmp_new_matrice->nb_lignes = nb_lignes;
     tmp_new_matrice->nb_cols = nb_colonnes;
 
-    //alloue un tableau de nb_lignes tableaux; (c'est ce qui est écrit dans le code du prof)
-    //demander au systeme d'allouer de la mémoire pour qu'à chaque ligne il y ai assez de mémoire pour y stocker un pointeur vers un float (qui sera le nb de colonne)
+    //alloue un tableau de nb_lignes tableaux; (c'est ce qui est ecrit dans le code du prof)
+    //demander au systeme d'allouer de la memoire pour qu'à chaque ligne il y ai assez de memoire pour y stocker un pointeur vers un float (qui sera le nb de colonne)
     tmp_new_matrice->matrice = (float **) malloc(tmp_new_matrice->nb_lignes * sizeof(float *)); 
     //printf("toute les lignes sont ok");
 
     for (tmp_ligne=0; tmp_ligne < tmp_new_matrice->nb_lignes; tmp_ligne++){
-        // demander au systeme d'allouer de la mémoire pour qu'a chaque colonne il y ai assez de memoire pour y stocker un float 
+        // demander au systeme d'allouer de la memoire pour qu'a chaque colonne il y ai assez de memoire pour y stocker un float 
         tmp_new_matrice->matrice[tmp_ligne]= (float *) malloc (tmp_new_matrice->nb_cols*sizeof(float));
         //printf("toutes les colonnes sont ok");
     }
@@ -37,9 +37,6 @@ int main()
 	int l=2;
 	int c=3;
 	test = creation_matrice(l,c);
-	//test = malloc(sizeof(struct matrice_s *));
-	//test->nb_lignes=2;
-	//test->nb_cols=3;
 	printf("Matrice initialisee :\nligne =2\ncolonne=3\n_____\n\n");
 	
 	int ligne;
@@ -63,7 +60,7 @@ int main()
 	
 	float *pointeurflt;
 	pointeurflt = &(flt);
-	printf("Pour le Test 4, on va pouvoir vérifier si la fonction précédente a bien été effectuee\n");
+	printf("Pour le Test 4, on va pouvoir verifier si la fonction precedente a bien ete effectuee\n");
 	matrice_get(test, val1, val2, pointeurflt);
 	printf("Adresse modifiee par la fonction : %p \n\n", pointeurflt);
 	printf("Valeur a cette adresse : %f\n\n", *pointeurflt);
