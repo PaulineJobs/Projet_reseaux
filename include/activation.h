@@ -9,6 +9,7 @@
 typedef enum  {
 				       fonction_d_activation_identity = 0,
 				       fonction_d_activation_nombre ,
+               fonction_d_activation_racine_carree = 1,
 } id_fonction_d_activation ;
 
 
