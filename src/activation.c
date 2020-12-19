@@ -87,6 +87,10 @@ id_fonction_d_activation demande_fonction_d_activation (){
   printf("L'id de la fonction d'activation racine carrée est 1 \n");
   printf("Veuillez choisir l'id que vous souhaitez.\n");
   scanf ("%d", &id_choisi);
+/*dans le scanf, j'ai mis un %d car en cours nous avions vu que le contenu d'une énumeration etait de type int. 
+Mais cela crée un warning car le %d ne va pas.
+Après plusieurs recherches sur internet, je n'ai toujours pas trouvé par quoi remplacer le %d donc le warning reste.
+*/
   printf("\n");
 
   return id_choisi ;
