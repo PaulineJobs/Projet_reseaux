@@ -11,36 +11,54 @@ int main(){
     FILE * fichier = NULL;
     fichier = fopen ("tests/fonction_activation.txt", "w+");
 
-    //int result = 0;
-    int id;
-    //int  fun = 0;
-    struct fonction_d_activation_s * reseau;
-
-    printf ("veuillez choisir un id 0 ou 1\n");
-    scanf ("Vous avez choisi l'id : %d \n", &id);
 //test de la fonction choix_fonction_d_activation
+    printf ("Test du module activation\n");
+    printf ("\n");
+    printf ("Test de la fonction choix_fonction_d_activation\n");
+    int id=0;
+    float x=0 ;
+    float y=0;
+    struct fonction_d_activation_s * reseau;
+    printf ("veuillez choisir un id 0 ou 1 : ");
+    scanf ("%d", &id);
     reseau = choix_fonction_d_activation(id);
-    printf ("le choix de la fonction d'activation est : %d \n", reseau -> id);
-
+    printf ("veuillez choisir un entier pour vérifier votre fonction (vous pourrez en déduire s'il s'agit de la fonction identity ou racine carrée): ");
+    scanf ( "%f", &x);
+    printf("la fonction f(%f) est : %f\n",x,reseau-> applique(x));
+    printf("Sa dérivée est f'(%f) : %f\n",x,reseau-> derivee(x,y));
+    printf ("\n");
+    fclose(fichier);
 //test de la fonction sauve_fonction_d_activation
+
     printf("Test de la fonction sauve_fonction_d_activation\n");
+    fichier = fopen ("tests/fonction_activation.txt", "w+");
+    printf ("veuillez choisir un id 0 ou 1 : ");
+    scanf ("%d", &id);
+    reseau = choix_fonction_d_activation(id);
     if (fichier != NULL){
-        fprintf (fichier,"%s", "la fonction a affiché : \n");
         sauve_fonction_d_activation(fichier, reseau);
     }
-    printf("Il faut aller vérifier dans le fichier fonction_activation.txt ce qu'a écrit la fonction \n\n");
-
+    printf("Veuillez ouvrir le fichier tests/fonction_activation.txt et vérifiez que l'id soit bien %d",reseau->id);
+    fclose(fichier);
+    printf ("\n");
 
 //test de la fonction lit_fonction_d_activation
     printf ("Test de la fonction lit_fonction_d_activation\n");
+    fichier = fopen ("tests/fonction_activation.txt", "r");
+    
+
     if (fichier !=NULL){
+        printf ("l'id écrite par la fonction sauve_fonction_d_activation est :");
         lit_fonction_d_activation(fichier, &reseau);
+        printf ("%d",reseau->id);
     }
-    printf("Il faut aller vérifier dans le fichier fonction_activation.txt ce qu'a lu la fonction \n\n");
 
     fclose(fichier);
+    printf ("\n");
+
 
 //test de la fonction demande_fonction_d_activation
+    printf ("Test de la fonction lit_fonction_d_activation\n");
     int demande;
     demande = demande_fonction_d_activation();
     printf ("la demande de fonction d'activation est : %d \n", demande);

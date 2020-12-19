@@ -16,8 +16,7 @@ typedef enum  {
 
 
 
-struct fonction_d_activation_s * 
-choix_fonction_d_activation ( id_fonction_d_activation id ) ;
+struct fonction_d_activation_s * choix_fonction_d_activation ( int id_fonction_d_activation) ;
 
 int sauve_fonction_d_activation ( FILE * f , struct fonction_d_activation_s * fun ) ;
 
