@@ -29,7 +29,7 @@ int main (){
     affiche_matrice(matrice);
 
     //ecriture de la matrice utiisateur dans un fichier : 
-    fichier = fopen("matrice_ecrite.txt", "w");
+    fichier = fopen("tests/matrice_ecrite.txt", "w");
     if (fichier != NULL) {
         result = sauve_matrice_fichier(fichier, matrice);
     }

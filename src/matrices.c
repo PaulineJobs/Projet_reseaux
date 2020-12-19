@@ -221,12 +221,15 @@ int lire_matrice_fichier ( FILE * f , struct matrice_s * * m ){     // utilisati
 //La fonction suivante ecrit dans le fichier le nombre de lignes, colonnes, ainsi que les valeurs de la matrice.
 int sauve_matrice_fichier ( FILE * f , struct matrice_s * m ){
     int i,j;
-
+    fprintf(f,"%s","nombre de lignes : ");
     fprintf(f,"%d", m->nb_lignes);
+    fprintf(f,"%s","\nnombre de colonnes : ");
     fprintf(f,"%d", m->nb_cols);
-    
+    fprintf(f,"%s","\nLes coefficients sont : \n");
+
     for (i=0; i<m->nb_lignes; i++){
         for (j=0; j<m->nb_cols; j++){
+            fprintf(f,"%s","\n");
             fprintf(f,"%f", m->matrice[i][j]);
         }
     }
