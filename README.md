@@ -1,27 +1,72 @@
-# Projet_reseaux
+# __Projet Réseaux__
 
--mathilde push et merge activation :
-    commentaires dans activation 
-    test du module activation 
-    google doc exlication
-    copie matrice 
+
+### *I - Compilation des fichiers sources*
+
+
+
+Dans le terminal, entrer simplement 
+
+    make
+
+-------
+
+### *II - Tester les modules*
+
+
+
+   * #### Tester le module utils
+
+Dans le terminal, entrer
+
+    bin/utils_test
+
+*L'utilisateur peut agir sur ce test en modifiant le fichier utils_test.txt dans le dossier test*
+
+*ATTENTION : Si vous souhaitez tester vos propres valeurs, conservez bien le type des valeurs à chaque emplacement*
+
+
+   * #### Tester le module matrice
+
+Dans le terminal, entrer
+
+    bin/matrice_test 
     
-  
--branch debug
-
--melanie :
-  modifier et uniformiser matrice-accesseur test (faire participer l'utilisateur et uniformiser avec les autres tests unitaires des autres modules)
-  google doc module
-  
--Pauline:
-google docs
-reseau derière fonction
-commentaires sur matrice opé 2 dernières fonctions 
+*L'intervention de l'utilisateur est requise pour tester ce module*
 
 
-Ecrire le readme 
+   * #### Tester le module matrices opération
+
+Dans le terminal, entrer
+
+    bin/matrices_operations_tests
+
+*L'intervention de l'utilisateur est requise pour tester ce module*
 
 
+   * #### Tester le module matrices accesseurs
+
+Dans le terminal, entrer
+
+    bin/matrices_accesseurs_test
+
+*L'intervention de l'utilisateur est requise pour tester ce module*
 
 
+   * #### Tester le module activation
+    
+Dans le terminal, entrer
+
+    bin/activation_test
+    
+*L'intervention de l'utilisateur est requise pour tester ce module*
+    
+    
+    
+    
+    
+    
+    
+    
+    
  
