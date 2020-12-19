@@ -13,7 +13,7 @@ Pour compiler et exécuter l'ensemble du projet
 
     make test
     
-*Dans notre cas, cette commande afficher un `segmentation fault` vu que nous n'avons pas traité le module couche.*
+*Dans notre cas, cette commande affiche un `segmentation fault` vu que nous n'avons pas traité le module couche.*
 
 -------
 
@@ -76,7 +76,7 @@ Dans le terminal, entrer
     
 Les modules *`specification`* et *`reseau`* ne sont pas testés. Ils dépendent tous deux du module *`couche`* que nous n'avons pas traité.
 
-Vous pouvez tout de même retrouver les explications de chaque fonctions sur le pdf joint, ainsi que des explications supplémentaires dans *`reseau.c`* ainsi que *`specification.c`*.
+Vous pouvez tout de même retrouver les explications de chaque fonction sur le pdf joint, ainsi que des explications supplémentaires dans *`reseau.c`* ainsi que *`specification.c`*.
     
     
     
