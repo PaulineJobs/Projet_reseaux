@@ -19,8 +19,9 @@ int main(){
     float x=0 ;
     float y=0;
     struct fonction_d_activation_s * reseau;
-    printf ("veuillez choisir un id 0 ou 1 : ");
-    scanf ("%d", &id);
+    //printf ("veuillez choisir un id 0 ou 1 : ");
+    //scanf ("%d", &id);
+    id = demande_fonction_d_activation();
     reseau = choix_fonction_d_activation(id);
     printf ("veuillez choisir un entier pour vérifier votre fonction (vous pourrez en déduire s'il s'agit de la fonction identity ou racine carrée): ");
     scanf ( "%f", &x);
@@ -28,6 +29,7 @@ int main(){
     printf("Sa dérivée est f'(%f) : %f\n",x,reseau-> derivee(x,y));
     printf ("\n");
     fclose(fichier);
+
 //test de la fonction sauve_fonction_d_activation
 
     printf("Test de la fonction sauve_fonction_d_activation\n");
@@ -40,7 +42,7 @@ int main(){
     }
     printf("Veuillez ouvrir le fichier tests/fonction_activation.txt et vérifiez que l'id soit bien %d",reseau->id);
     fclose(fichier);
-    printf ("\n");
+    printf ("\n\n");
 
 //test de la fonction lit_fonction_d_activation
     printf ("Test de la fonction lit_fonction_d_activation\n");
@@ -54,14 +56,14 @@ int main(){
     }
 
     fclose(fichier);
-    printf ("\n");
+    printf ("\n\n");
 
 
 //test de la fonction demande_fonction_d_activation
-    printf ("Test de la fonction lit_fonction_d_activation\n");
+    /*printf ("Test de la fonction demande_fonction_d_activation");
     int demande;
     demande = demande_fonction_d_activation();
-    printf ("la demande de fonction d'activation est : %d \n", demande);
-
+    printf ("Vous avez demandé la fonction d'activation numéro %d \n", demande);
+*/
 
 }

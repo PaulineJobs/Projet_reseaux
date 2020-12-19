@@ -81,8 +81,13 @@ int lit_fonction_d_activation ( FILE * f , struct fonction_d_activation_s ** fun
 
 
 id_fonction_d_activation demande_fonction_d_activation (){
-  //on prends dans le fichier utils.c une foncton qui se rapproche le plus possible de ce qu'on cherche a faire.
-  //ici, on va utiliser lire_entier car on doit afficher l'id de la focntion d'activation chosie. 
-  printf("l'id de la fonction d'activation est : %d ", lire_entier(stdin));
-  return 0 ;
+  id_fonction_d_activation id_choisi;
+  printf("\n");
+  printf("L'id de la fonction d'activation identité est 0 \n");
+  printf("L'id de la fonction d'activation racine carrée est 1 \n");
+  printf("Veuillez choisir l'id que vous souhaitez.\n");
+  scanf ("%d", &id_choisi);
+  printf("\n");
+
+  return id_choisi ;
 }
