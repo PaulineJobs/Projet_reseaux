@@ -15,7 +15,7 @@ int main(){
     printf ("Test du module activation\n");
     printf ("\n");
     printf ("Test de la fonction choix_fonction_d_activation\n");
-    int id=0;
+    id_fonction_d_activation id=0;
     float x=0 ;
     float y=0;
     struct fonction_d_activation_s * reseau;

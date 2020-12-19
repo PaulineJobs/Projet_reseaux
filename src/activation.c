@@ -36,7 +36,7 @@ static float derivee_fonction_d_activation_Racine_carree (float y,float fy){
   définies sur le modèle de la fonction d'identité
  */
  
-struct fonction_d_activation_s * choix_fonction_d_activation ( int id_fonction_d_activation ){
+struct fonction_d_activation_s * choix_fonction_d_activation ( id_fonction_d_activation id_fonction_d_activation ){
   struct fonction_d_activation_s * res; // variable locale 
   res = malloc (sizeof (struct fonction_d_activation_s));
   //champs a remplir : 
@@ -72,7 +72,7 @@ int sauve_fonction_d_activation ( FILE * f , struct fonction_d_activation_s * fu
   choix d'une fonction d'activation correspond à cet id dans *fun.
  */
 int lit_fonction_d_activation ( FILE * f , struct fonction_d_activation_s ** fun ){
-  int id;
+  id_fonction_d_activation id;
   id=lire_entier (f);
   (*fun) = choix_fonction_d_activation(id); 
   return 0 ;
