@@ -16,7 +16,7 @@ CFLAGS:=-Wall $(DEBUG)  -I $(INCLUDE_PATH) -L$(LIBRARY_PATH) -Wno-unused-functio
 
 
 
-all: $(MAIN) matrices_operations_tests matrice_test utils_test matrices_accesseurs_test
+all: $(MAIN) matrices_operations_tests matrice_test utils_test matrices_accesseurs_test activation_test
 
 
 matrices_operations_tests: bin/matrices_operations_tests
@@ -26,6 +26,8 @@ matrice_test: bin/matrice_test
 utils_test: bin/utils_test
 
 matrices_accesseurs_test: bin/matrices_accesseurs_test
+
+activation_test: bin/activation_test
 
 
 bin/apprentissage: src/main_apprentissage.c $(MODULES_APPRENTISSAGE)
@@ -54,6 +56,10 @@ bin/utils_test: tests/utils_test.c  lib/utils.o
 bin/matrices_accesseurs_test: tests/matrices_accesseurs_test.c lib/matrices_accesseurs.o
 	gcc $(CFLAGS) tests/matrices_accesseurs_test.c lib/matrices_accesseurs.o -o bin/matrices_accesseurs_test $(LIBS)
 
+
+# Pour le module activation.c
+bin/activation_test: tests/activation_test.c lib/activation.o  lib/utils.o
+	gcc $(CFLAGS) tests/activation_test.c lib/activation.o lib/utils.o -o bin/activation_test $(LIBS)
 
 
 lib/%.o: src/%.c 
