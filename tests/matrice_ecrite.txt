@@ -1,1 +1,6 @@
-110.000000
+nombre de lignes : 2
+nombre de colonnes : 1
+Les coefficients sont : 
+
+1.000000
+1.000000
