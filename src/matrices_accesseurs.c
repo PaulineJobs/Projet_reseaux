@@ -5,7 +5,7 @@
   accesseurs sur les matrices
 */
 
-//Return le nombre de lignes de la matrice
+//Retourne le nombre de lignes de la matrice
 int nb_lignes ( struct matrice_s * m )
 {
   int ligne;
@@ -13,7 +13,7 @@ int nb_lignes ( struct matrice_s * m )
   return ligne;
 }
 
-//Return le nombre de colonnes de la matrice
+//Retourne le nombre de colonnes de la matrice
 int nb_cols ( struct matrice_s * m )
 {
   int colonne;
