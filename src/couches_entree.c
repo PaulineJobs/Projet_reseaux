@@ -1,5 +1,6 @@
 #include <stdio.h>
 //#include <malloc.h>
+#include <stdlib.h>
 #include "matrices.h"
 #include "matrices_accesseurs.h"
 #include "couches_struct.h"
