@@ -19,8 +19,7 @@ int main(){
     float x=0 ;
     float y=0;
     struct fonction_d_activation_s * reseau;
-    //printf ("veuillez choisir un id 0 ou 1 : ");
-    //scanf ("%d", &id);
+    //on a l'id que l'utilisateur veut grace à la fonction demande_fonction_d_activation 
     id = demande_fonction_d_activation();
     reseau = choix_fonction_d_activation(id);
     printf ("veuillez choisir un entier pour vérifier votre fonction (vous pourrez en déduire s'il s'agit de la fonction identity ou racine carrée): ");
@@ -31,7 +30,6 @@ int main(){
     fclose(fichier);
 
 //test de la fonction sauve_fonction_d_activation
-
     printf("Test de la fonction sauve_fonction_d_activation\n");
     fichier = fopen ("tests/fonction_activation.txt", "w+");
     printf ("veuillez choisir un id 0 ou 1 : ");
@@ -48,22 +46,12 @@ int main(){
     printf ("Test de la fonction lit_fonction_d_activation\n");
     fichier = fopen ("tests/fonction_activation.txt", "r");
     
-
     if (fichier !=NULL){
         printf ("l'id écrite par la fonction sauve_fonction_d_activation est :");
         lit_fonction_d_activation(fichier, &reseau);
         printf ("%d",reseau->id);
     }
-
     fclose(fichier);
     printf ("\n\n");
-
-
-//test de la fonction demande_fonction_d_activation
-    /*printf ("Test de la fonction demande_fonction_d_activation");
-    int demande;
-    demande = demande_fonction_d_activation();
-    printf ("Vous avez demandé la fonction d'activation numéro %d \n", demande);
-*/
 
 }
