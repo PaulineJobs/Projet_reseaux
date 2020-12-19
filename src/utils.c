@@ -52,11 +52,11 @@ POINT CULTURE : LA STRUCTURE FILE
 	(et on ne verra pas la fonction ftell de toutes façons)
 * 
 */
-                                              
+ 
 void log_show_position ( FILE * f ) {
 	                                         
 	assert ( f != NULL ) ;                   
-	log ( "position %ld" , ftell (f));       //La fonction ftell() retourne la position actuelle au sein du fichier sous forme d'un long
+	log ( "position %ld" , ftell (f));   //La fonction ftell() retourne la position actuelle au sein du fichier sous forme d'un long
   
 }
 
@@ -64,7 +64,7 @@ void log_show_position ( FILE * f ) {
 /*
   Voir les TPs, = libentrée, sauf qu'on lit dans un fichier f
  */
-void lire_donnee ( FILE * f , char * format , void * res ){         //extrait la donnée correspondant au format dans le fichier et la retourner dans variable pointée par res
+void lire_donnee ( FILE * f , char * format , void * res ){         //extrait la donnée correspondant au format dans le fichier et la retourne dans la variable pointée par res
 	fscanf(f,format,res);                                           //fscanf lit "res" de format"format"
 	
 }
@@ -89,9 +89,9 @@ int lire_entier ( FILE * f ){          // lit un entier dans le fichier f de typ
 
 int lire_entier_intervalle (FILE * f, int min, int max ) {       // lit un entier dans un intervalle donné dans le fichier f de type FILE             
 	int entier;
-	if (max < min){                                               // on verifie que l'intervalle soit bien definit
+	if (max < min){                                               // on verifie que l'intervalle soit bien defini
 		printf("l'intervalle n'est pas défini");                  //Sinon, on indique à l'utilisateur que l'intervalle n'est pas defini         
-		return min-1;                                             //Pour montrer qu'il y a une erreur, on return un nombre qui n'est pas compris dans l'intervalle (min-1 par exemple)          
+		return min-1;                                             //Pour montrer qu'il y a une erreur, on retourne un nombre qui n'est pas compris dans l'intervalle (min-1 par exemple)          
 	}
 	else {                                                             
 		entier=lire_entier (f);                                           //on appelle une première fois la fonction "lire_entier" que l'on stocke dans "entier"
@@ -101,9 +101,9 @@ int lire_entier_intervalle (FILE * f, int min, int max ) {       // lit un entie
 	}
 	if (feof(f)==1){                                                                                //si on arrive en fin de fichier, 
 		printf("Il n'y a pas d'entiers compris entre %d et %d dans votre fichier\n",min,max);       //on indique à l'utilisateur que l'on a pas d'entier compris dans l'intervalle.
-		return (min-1);                                                                             //pour montrer qu'il y a une erreur on return un nombre qui n'est pas compris dans l'intervalle (min-1 par exemple)
+		return (min-1);                                                                             //pour montrer qu'il y a une erreur on retourne un nombre qui n'est pas compris dans l'intervalle (min-1 par exemple)
 	}
-	 return entier;                                                      //Sinon, a la fin, on renvoie la valeure de l'entier lu
+	 return entier;                                                      //Sinon, a la fin, on renvoie la valeur de l'entier lu
 }
 
 
@@ -120,7 +120,7 @@ char * lire_string (FILE * f ) {                       //lit une chaine de carac
 	chaine = malloc(sizeof(char) * 50);                // on alloue au tableau la mémoire nécessaire 
 	if (chaine == NULL){                                                  // on verifie que l'allocation a bien marché
 		printf("L'alloction de la chaine de caractères a échouée\n");     //Sinon on affiche un message d'erreur
-		return (NULL);                                                      // On return NULL pour montrer qu'il y a eu une erreur 
+		return (NULL);                                                      // On retourne NULL pour montrer qu'il y a eu une erreur 
 		}
 	else{	
 		fscanf(f,"%s",chaine);                                             // on lit dans f la chaine de caractères et on la stocke dans le tableua "chaine" 
