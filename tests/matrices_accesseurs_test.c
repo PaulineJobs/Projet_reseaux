@@ -34,42 +34,56 @@ struct matrice_s * creation_matrice ( int nb_lignes , int nb_colonnes ){
 int main()
 {
 	struct matrice_s * test = NULL;
-	int l=2;
-	int c=3;
+	int l = 0;
+	int c = 0;
+	printf("Test pour le module matrice accesseur\n\nVous allez tout d'abord initialiser une matrice, pour pouvoir tester les fonctions\n");
+	printf("Veuillez entrer un nombre de lignes, puis un nombre de colonnes\n");
+	scanf("%d", &l);
+	scanf("%d", &c);
 	test = creation_matrice(l,c);
-	printf("Matrice initialisee :\nligne =2\ncolonne=3\n_____\n\n");
-	
+	printf("Matrice initialisee :\nligne = %d \ncolonne = %d \n_____\n\n", l, c);
+
 	int ligne;
 	int colonne;
 	
 	ligne=nb_lignes(test);
-	printf("Test 1 pour la fonction nb_lignes (doit afficher 2): %d \n\n", ligne);
+	printf("Test 1 pour la fonction nb_lignes\nLa matrice possede %d lignes\n_____\n\n", ligne);
 	
 	
 	
 	colonne=nb_cols(test);
-	printf("Test 2 pour la fonction nb_cols (doit afficher 3): %d \n\n", colonne);
+	printf("Test 2 pour la fonction nb_cols\nLa matrice possede %d colonnes\n_____\n\n", colonne);
 	
 	
-	int val1 = 1;
-	int val2 = 2;
-	float flt = 40;
-	printf("Test 3 pour la fonction matrice_set :\nOn va entrer la valeur 40 a la ligne 1, colonne 2\n");
+	int val1 = 0;
+	int val2 = 0;
+	float flt = 0.0;
+	printf("Test 3 pour la fonction matrice_set :\n\n");
+	
+	printf("Renseignez la valeur a entrer dans la matrice\n");
+	scanf("%f", &flt);
+	
+	printf("Veuillez indiquer la ligne a laquelle vous souhaitez entrer cette valeur (en considerant le nombre de lignes de votre matrice)\n");
+	scanf("%d", &val1);
+	
+	printf("Veuillez indiquer la colonne a laquelle vous souhaitez entrer cette valeur (en considerant le nombre de colonnes de votre matrice\n");
+	scanf("%d", &val2);
+	
 	matrice_set(test, val1, val2, flt);
-	printf("La valeur 40 est dans la matrice au bon emplacement\n\n");
+	printf("La valeur %f est dans la matrice au bon emplacement\n____\n\n", flt);
 	
 	float *pointeurflt;
 	pointeurflt = &(flt);
 	printf("Pour le Test 4, on va pouvoir verifier si la fonction precedente a bien ete effectuee\n");
 	matrice_get(test, val1, val2, pointeurflt);
-	printf("Adresse modifiee par la fonction : %p \n\n", pointeurflt);
-	printf("Valeur a cette adresse : %f\n\n", *pointeurflt);
+	printf("Adresse modifiee par la fonction : %p \n", pointeurflt);
+	printf("Valeur a cette adresse : %f\n_____\n\n", *pointeurflt);
 	
 	
 	
 	float *** raw;
 	raw=matrice_raw(test);
-	printf("Test 5 pour fonction matrice_raw, renvoie l'adresse : %p\n",raw);
+	printf("Test 5 pour fonction matrice_raw\nRenvoie l'adresse : %p\n",raw);
 	
 	
 	
