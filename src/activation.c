@@ -78,13 +78,14 @@ int lit_fonction_d_activation ( FILE * f , struct fonction_d_activation_s ** fun
   return 0 ;
 }
 
-
-
+//cette fonction sert à afficher les choix d'id possibles puis demande à l'utilisateur lequel il souhaite et enfin il le renvoie.
 id_fonction_d_activation demande_fonction_d_activation (){
   id_fonction_d_activation id_choisi;
   printf("\n");
+  //affichage des id possibles
   printf("L'id de la fonction d'activation identité est 0 \n");
   printf("L'id de la fonction d'activation racine carrée est 1 \n");
+  //demande a l'utilisateur quel id il souhaite
   printf("Veuillez choisir l'id que vous souhaitez.\n");
   scanf ("%d", &id_choisi);
 /*dans le scanf, j'ai mis un %d car en cours nous avions vu que le contenu d'une énumeration etait de type int. 
