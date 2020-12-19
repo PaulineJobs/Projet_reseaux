@@ -76,7 +76,7 @@ struct matrice_s * reseau_get_sortie ( struct reseau_s * r ){
  */
 void propagation (struct matrice_s * entree , struct reseau_s * r ){
 	//on fait une boucle qui parcourt toutes les couches du reseau en partant de la dernière
-    for ( int i = r->nb_couches - 1 ; i >= 0  ; i-- ){
+    for (int i=0; i< r->nb_couches; i++){
 		//Pour chaque couche, on appelle la fonction de propagation qui se trouve dans la structure couche_s du reseau r (dans couches_struct.h)
 		r->couche[i]->propagation (entree ,r->couche[i]);
     }
@@ -151,31 +151,38 @@ int lit_reseau_fichier ( FILE * f ,  struct reseau_s ** r ) {
     //on lit d'abord le nombre de couches et on le stocke dans le réseau à son emplacement 
 	fscanf ( f , "%d\n" , &((*r)->nb_couches)) ; 
 	//on parcourt les couches 
-	for ( int i = (*r)->nb_couches - 1 ; i >= 0  ; i-- ){
-		// on lit le type de la couche, et selon son résultat on effectue les taches suivantes
+    
+    //on verifie que la couche soit bien définie
+    if (lire_type_de_couche (f,&(*r)->couche[i]->t )==1){
+        printf("le type de la couche est undéfini");
+    } else {
+
+	    for ( int i = (*r)->nb_couches - 1 ; i >= 0  ; i-- ){
+		    // on lit le type de la couche, et selon son résultat on effectue les taches suivantes
 		
-		if (lire_mot_clef(f, "entree")== 0 ) { //la couche est de type couche_entree
-			(*r)->couche[i]->t=type_couche_entree;
-		}
-		if (lire_mot_clef(f, "sortie") == 0){//la couche est de type couche_sortie
-			(*r)->couche[i]->t=type_couche_sortie;
-		}
-		if (lire_mot_clef(f, "matrice") == 0){//la couche est de type couche_matrice
-			//on lit la matrice à l'aide de "lire_matrice_fichier"
-			// on la stocke dans la matrice de l'union data de la structure couche du reseau
-			(*r)->couche[i]->t=type_couche_matrice;
-			lire_matrice_fichier (f ,&matricetmp );
-			(*r)->couche[i]->data.m =matricetmp;
-		}
-		if (lire_mot_clef(f, "activation") == 0){//la couche est de type couche_activation
-			//on lit la fonction d'activation à l'aide de "lit_fonction_d_activation"
-			// on la stocke dans la fonction d'activation de l'union data de la structure couche du reseau
-			(*r)->couche[i]->t=type_couche_activation;
-		    funtmp=malloc(sizeof(struct fonction_d_activation_s));
-			lit_fonction_d_activation (f ,&funtmp );
-			(*r)->couche[i]->data.f =funtmp;
-		}
-	}
+		    if (lire_mot_clef(f, "entree")== 0 ) { //la couche est de type couche_entree
+			    (*r)->couche[i]->t=type_couche_entree;
+		    }
+		    if (lire_mot_clef(f, "sortie") == 0){//la couche est de type couche_sortie
+			    (*r)->couche[i]->t=type_couche_sortie;
+		    }
+		    if (lire_mot_clef(f, "matrice") == 0){//la couche est de type couche_matrice
+			    //on lit la matrice à l'aide de "lire_matrice_fichier"
+			    // on la stocke dans la matrice de l'union data de la structure couche du reseau
+			    (*r)->couche[i]->t=type_couche_matrice;
+			    lire_matrice_fichier (f ,&matricetmp );
+			    (*r)->couche[i]->data.m =matricetmp;
+		    }
+		    if (lire_mot_clef(f, "activation") == 0){//la couche est de type couche_activation
+			    //on lit la fonction d'activation à l'aide de "lit_fonction_d_activation"
+			    // on la stocke dans la fonction d'activation de l'union data de la structure couche du reseau
+			    (*r)->couche[i]->t=type_couche_activation;
+		        funtmp=malloc(sizeof(struct fonction_d_activation_s));
+			    lit_fonction_d_activation (f ,&funtmp );
+			    (*r)->couche[i]->data.f =funtmp;
+		    }
+	    }
+    }
     return 0;
 }
 
