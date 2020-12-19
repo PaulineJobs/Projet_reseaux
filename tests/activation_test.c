@@ -35,7 +35,7 @@ int main(){
     printf("Test de la fonction sauve_fonction_d_activation\n");
     fichier = fopen ("tests/fonction_activation.txt", "w+");
     printf ("veuillez choisir un id 0 ou 1 : ");
-    scanf ("%", &id);
+    scanf ("%d", &id);
     reseau = choix_fonction_d_activation(id);
     if (fichier != NULL){
         sauve_fonction_d_activation(fichier, reseau);
